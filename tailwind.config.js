@@ -19,5 +19,13 @@ export default {
       },
     },
   },
-  plugins: [],
+
+      fontSize: {
+        h1: "2.6rem",
+      },
+
+      screens: {
+        xs: "475px",
+      },
+  plugins: [import("@tailwindcss/line-clamp")],
 };

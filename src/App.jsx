@@ -1,11 +1,15 @@
-import React from "react";
+import { Routes, Route } from "react-router-dom";
+import HomeScreen from "./Screens/HomeScreen/HomeScreen.jsx";
+import AboutUs from "./Screens/About/About.jsx";
+import NotFound from "./Screens/NotFound/NotFound.jsx";
 
 const App = () => {
   return (
-    <div className="h-header bg-main w-full  ">
-      <h1 className="text-3xl text-star font-bold underline">Hello World</h1>
-      <p></p>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 
