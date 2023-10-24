@@ -45,12 +45,13 @@ exports.validatePassword = (password, errorMsg) => {
     }
 };
 
-exports.createUser = async (username, email, password) => {
+exports.createUnactivatedUser = async (username, email, password) => {
     // TODO: create User model
     const user = new User({
         username: username,
         email: email,
-        password: bcryptHash(password, accountConfig.password.hashRounds)
+        password: bcryptHash(password, accountConfig.password.hashRounds),
+        activated: false
     })
     await user.save()
     return user

@@ -21,7 +21,7 @@ exports.signup = async (req, res) => {
     }
 
     try {
-        await accountUtils.createUser(username, email, password);
+        await accountUtils.createUnactivatedUser(username, email, password);
         await accountUtils.sendActivationEmail(username, email);
     } catch (err) {
         res.status(500).json({message: ["Internal server error"]});
