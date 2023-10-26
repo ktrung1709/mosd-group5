@@ -53,8 +53,8 @@ exports.createUnactivatedUser = async (username, email, password) => {
         password: bcryptHash(password, accountConfig.password.hashRounds),
         activated: false
     })
-    await user.save()
-    return user
+    await accountService.saveUser(user)
+    return {username: username, email: email}
 }
 
 exports.sendActivationEmail = async (username, email) => {

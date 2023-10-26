@@ -16,14 +16,15 @@ exports.signup = async (req, res) => {
     accountUtils.validatePassword(password, errorMsg);
 
     if (errorMsg.length > 0) {
-        res.status(400).json({message: errorMsg})
+        res.status(400).json({status: "fail", message: errorMsg})
         return
     }
 
     try {
         await accountUtils.createUnactivatedUser(username, email, password);
         await accountUtils.sendActivationEmail(username, email);
+        return {status: "ok", message: ["Account created"]};
     } catch (err) {
-        res.status(500).json({message: ["Internal server error"]});
+        res.status(500).json({status: "fail", message: ["Internal server error"]});
     }
 }
