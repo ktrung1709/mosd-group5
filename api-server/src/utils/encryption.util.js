@@ -1,5 +1,6 @@
 const {ENCRYPTION} = require('../configs/main.config')
 const bcrypt = require('bcrypt')
+const crypto = require('crypto');
 
 const key = crypto
     .createHash('sha512')
@@ -12,14 +13,14 @@ const encryptionIV = crypto
     .digest('hex')
     .substring(0, 16)
 
-export function encryptData(data) {
+exports.encryptData = (data) => {
     const cipher = crypto.createCipheriv(ENCRYPTION.ALGORITHM, key, encryptionIV)
     return Buffer.from(
         cipher.update(data, 'utf8', 'hex') + cipher.final('hex')
     )
 }
 
-export function decryptData(encryptedData) {
+exports.decryptData = (encryptedData) => {
     const buff = Buffer.from(encryptedData, 'hex')
     const decipher = crypto.createDecipheriv(ENCRYPTION.ALGORITHM, key, encryptionIV)
     return (
@@ -28,6 +29,6 @@ export function decryptData(encryptedData) {
     )
 }
 
-export function bcryptHash(data, round = 10) {
+exports.bcryptHash = (data, round = 10) => {
     return bcrypt.hash(data, round)
 }

@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const {SMTP} = require("../configs/main.config");
 
-export function sendEmail(from, to, subject, body) {
+exports.sendEmail = (from, to, subject, body) => {
     let mailOptions = {
         from: from,
         to: to,
