@@ -28,15 +28,31 @@ const TopRated = () => {
           loop={true}
           modules={[Navigation, Autoplay]}
           breakpoints={{
+            280: {
+              slidesPerView: 1,
+            },
+            // when window width is >= 320px
+            320: {
+              slidesPerView: 1,
+            },
             // when window width is >= 640px
             640: {
-              width: 640,
+              width: 624,
               slidesPerView: 1,
             },
             // when window width is >= 768px
             768: {
-              width: 768,
+              slidesPerView: 1,
+            },
+            912: {
               slidesPerView: 2,
+            },
+            // when window width is >= 992px
+            992: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 3,
             },
           }}
         >

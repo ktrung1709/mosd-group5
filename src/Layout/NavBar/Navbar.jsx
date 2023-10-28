@@ -46,8 +46,9 @@ const NavBar = () => {
           <NavLink to="/contact-us" className={Hover}>
             Contact us
           </NavLink>
-          <NavLink to="/login" className={Hover}>
+          <NavLink to="/login" className={`user-action-button ${Hover}`}>
             <CgUser className="w-8 h-8" />
+            Login
           </NavLink>
           <NavLink to="/favorite" className={`${Hover} relative`}>
             <FaHeart className="w-6 h-6" />
