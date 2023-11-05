@@ -1,5 +1,6 @@
 const express = require('express');
 const {SERVER} = require('./src/configs/main.config');
+const db = require('./src/configs/db.config');
 
 const authRoute = require('./src/routes/authentication.route');
 

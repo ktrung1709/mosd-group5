@@ -7,11 +7,8 @@ const {
     SECRET_KEY,
     SMTP_HOST,
     SMTP_PORT,
-    DB_PORT,
-    DB_HOST,
+    DB_STRING,
     DB_NAME,
-    DB_USERNAME,
-    DB_PASSWORD,
     ENCRYPTION_ALGORITHM,
     ENCRYPTION_KEY,
     ENCRYPTION_IV
@@ -27,13 +24,6 @@ module.exports = {
     SMTP: {
         HOST: SMTP_HOST,
         PORT: SMTP_PORT
-    },
-    DB: {
-        PORT: DB_PORT,
-        HOST: DB_HOST,
-        NAME: DB_NAME,
-        USERNAME: DB_USERNAME,
-        PASSWORD: DB_PASSWORD
     },
     ENCRYPTION: {
         ALGORITHM: ENCRYPTION_ALGORITHM,
