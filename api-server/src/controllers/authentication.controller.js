@@ -1,5 +1,6 @@
-accountUtils = require('../utils/account.util');
-
+const accountUtils = require('../utils/account.util');
+const accountConfig = require('../configs/account.config')
+const {bcryptHash} = require("./encryption.util");
 
 exports.signup = async (req, res) => {
     let username = req.body.username;
@@ -27,4 +28,18 @@ exports.signup = async (req, res) => {
     } catch (err) {
         res.status(500).json({status: "fail", message: ["Internal server error"]});
     }
+}
+
+exports.signin = async (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+    const errorMsg = [];
+
+    await accountUtils.checkIfEmailExists(email, errorMsg);
+
+    if (errorMsg.indexOf(accountConfig.email.existErrMsg) < 0) {
+        res.status(400).json({status: "fail", message: "Login failed"})
+        return
+    }
+
 }
