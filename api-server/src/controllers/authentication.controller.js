@@ -1,5 +1,6 @@
 const accountUtils = require('../utils/account.util');
-const accountConfig = require('../configs/account.config')
+const accountConfig = require('../configs/account.config');
+const accountService = require("../services/account.service");
 const {bcryptHash} = require("./encryption.util");
 
 exports.signup = async (req, res) => {
@@ -33,13 +34,25 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-    const errorMsg = [];
 
-    await accountUtils.checkIfEmailExists(email, errorMsg);
+    await accountService.checkPassword(email).then(user => {
+        if(!user){
+            res.status(400).json({ message: 'Invalid email or password' });
+        }else {
+            bcrypt.compare(password, user.password).then(result => {
+                    if (result) {
+                        console.log("Login successful!");
+                        res.status(200).json({user: {
+                            email: user.email,
+                            username: user.username,
+                        }});
+                    } else {
+                        console.log('Invalid email or password');
+                        res.status(400).json({ message: 'Invalid email or password' });
+                    }
+                }).catch(error => console.error('Error comparing passwords:', error));
+        }
+    });
 
-    if (errorMsg.indexOf(accountConfig.email.existErrMsg) < 0) {
-        res.status(400).json({status: "fail", message: "Login failed"})
-        return
-    }
 
 }
