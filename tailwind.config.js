@@ -17,12 +17,6 @@ export default {
         header: "560px",
         rate: "400px",
       },
-<<<<<<< HEAD
-=======
-    },
-  },
->>>>>>> 3342fa489fd697dccdd8acb277d0c7adc2659d99
-
       fontSize: {
         h1: "2.6rem",
       },
@@ -30,10 +24,7 @@ export default {
       screens: {
         xs: "475px",
       },
-<<<<<<< HEAD
     },
   },
-=======
->>>>>>> 3342fa489fd697dccdd8acb277d0c7adc2659d99
   plugins: [import("@tailwindcss/line-clamp")],
 };

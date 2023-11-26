@@ -1,7 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BiTime } from "react-icons/bi";
+import { moviePropTypes } from "../../PropTypes/MoviePropTypes.js";
 const FlexMoviesItems = ({ movie }) => {
   return (
     <div className="flex gap-5">
@@ -25,16 +24,7 @@ const FlexMoviesItems = ({ movie }) => {
 };
 
 FlexMoviesItems.propTypes = {
-  movie: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    language: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-    time: PropTypes.string.isRequired,
-    desc: PropTypes.string.isRequired,
-  }).isRequired,
+  movie: moviePropTypes.isRequired,
 };
 
 export default FlexMoviesItems;

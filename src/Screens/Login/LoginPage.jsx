@@ -1,8 +1,8 @@
-import React from "react";
-import { useForm, NavLink } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { NavLink } from "react-router-dom";
 import Layout from "../../Layout/Layout.jsx";
 
-const Login = () => {
+const LoginPage = () => {
   const {
     register,
     handleSubmit,
@@ -95,4 +95,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

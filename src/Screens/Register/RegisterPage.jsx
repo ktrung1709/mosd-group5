@@ -1,8 +1,7 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import Layout from "../../Layout/Layout.jsx";
 
-const Register = () => {
+const RegisterPage = () => {
   const {
     register,
     handleSubmit,
@@ -164,4 +163,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;
