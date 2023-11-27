@@ -5,6 +5,8 @@ import ContactUs from "./Screens/Contact/ContactPage.jsx";
 import NotFound from "./Screens/NotFound/NotFound.jsx";
 import LoginPage from "./Screens/Login/LoginPage.jsx";
 import RegisterPage from "./Screens/Register/RegisterPage.jsx";
+import PasswordPage from "./Screens/Dashboard/Password/Password.jsx";
+import ForgotPage from "./Screens/Dashboard/Password/Forgot.jsx";
 import MovieDetailPage from "./Screens/MovieDetail/MovieDetailPage.jsx";
 
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/change-password" element={<PasswordPage />} />
+      <Route path="/forgot-password" element={<ForgotPage />} />
       <Route path="/movie/:name" element={<MovieDetailPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
