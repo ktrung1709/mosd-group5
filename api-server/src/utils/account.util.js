@@ -5,7 +5,6 @@ const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
 const {SERVER} = require('../configs/main.config')
-const {bcryptHash} = require("./encryption.util");
 
 exports.checkIfUsernameExists = async (username, errorMsg) => {
     const user = await accountService.getUserByUsername(username)
@@ -50,7 +49,7 @@ exports.createUnactivatedUser = async (username, email, password) => {
     const user = new User({
         username: username,
         email: email,
-        password: bcryptHash(password, accountConfig.password.hashRounds),
+        password: encryptionUtil.bcryptHash(password, accountConfig.password.hashRounds),
         activated: false
     })
     await accountService.saveUser(user)

@@ -1,6 +1,6 @@
 const accountUtils = require('../utils/account.util');
 const accountConfig = require('../configs/account.config')
-const {bcryptHash} = require("./encryption.util");
+const {bcryptHash} = require("../utils/encryption.util");
 
 exports.signup = async (req, res) => {
     let username = req.body.username;
