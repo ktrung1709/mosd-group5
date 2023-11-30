@@ -18,7 +18,7 @@ exports.validateUsername = (username, errorMsg) => {
     if (username.length < accountConfig.username.minLength || username.length > accountConfig.username.maxLength) {
         errorMsg.push(accountConfig.username.lengthErrMsg)
     }
-    if (username.match(accountConfig.username.regex)) {
+    if (!username.match(accountConfig.username.regex)) {
         errorMsg.push(accountConfig.username.regexErrMsg)
     }
 };

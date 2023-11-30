@@ -1,7 +1,7 @@
 const accountUtils = require('../utils/account.util');
 const accountConfig = require('../configs/account.config');
 const accountService = require("../services/account.service");
-const {bcryptHash} = require("./encryption.util");
+const {bcryptHash} = require("../utils/encryption.util");
 
 exports.signup = async (req, res) => {
     let username = req.body.username;
@@ -46,6 +46,7 @@ exports.signin = async (req, res) => {
                             email: user.email,
                             username: user.username,
                         }});
+                        req.session.user = user;
                     } else {
                         console.log('Invalid email or password');
                         res.status(400).json({ message: 'Invalid email or password' });
@@ -55,4 +56,13 @@ exports.signin = async (req, res) => {
     });
 
 
+}
+
+exports.logout = async(req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+          return res.send('Error logging out');
+        }
+        res.send('Logged out successfully');
+      });
 }
