@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const {DB_STRING, DB_NAME} = process.env;
 
-mongoose.connect(DB_STRING);
+mongoose.connect(DB_STRING + DB_NAME);
 
 const db = mongoose.connection;
 
