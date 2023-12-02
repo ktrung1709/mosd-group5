@@ -4,6 +4,7 @@ const db = require('./src/configs/db.config');
 const session = require('express-session');
 
 const authRoute = require('./src/routes/authentication.route');
+const { verifyToken } = require('./src/utils/account.util');
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.get('/ping', (req, res) => {
     res.json({'status': 'ok'});
 });
 
-app.use('/api', authRoute);
+app.use('/auth', authRoute);
 
 const port = SERVER.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
