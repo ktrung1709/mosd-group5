@@ -37,8 +37,8 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
+    console.log(`EMAIL: ${username}`)
     await accountService.getUserByUsername(username).then(user => {
-        
         if(!user){
             res.status(400).json({ message: 'Invalid email or password' });
         }else {
@@ -46,10 +46,10 @@ exports.signin = async (req, res) => {
                     if (result) {
                         console.log("Login successful!");
                         const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '2 days' });
-                        res.status(200).json({user: {
-                            username: user.username,
-                            token: token,
-                        }});
+                        res.status(200).json({
+                            status: 'ok',
+                            token: token
+                        });
                     } else {
                         console.log('Invalid email or password');
                         res.status(400).json({ message: 'Invalid email or password' });
