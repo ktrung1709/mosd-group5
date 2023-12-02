@@ -1,10 +1,11 @@
 const fs = require('fs');
-const {encode} = require('html-entities');
+const { encode } = require('html-entities');
 
 const encryptionUtil = require('./encryption.util')
 const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
+const jwt = require('jsonwebtoken')
 const { SERVER, SECRET_KEY } = require('../configs/main.config')
 const jwt = require("jsonwebtoken");
 
@@ -95,9 +96,13 @@ exports.verifyToken = async (req, res, next) => {
         if (err) {
             return res.status(403).json({ message: 'Forbidden' });
         }
-
-        req.user = user;
-        next();
+        accountService.getUserByUsername(user.username).then(userFound => {
+            if (!userFound) {
+                return res.status(400).json({ message: 'Invalid email or password' });
+            }
+            req.user = userFound;
+            next();
+        }).catch(err => console.log(err))
     });
 }
 
