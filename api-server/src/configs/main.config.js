@@ -9,7 +9,9 @@ const {
     SMTP_PORT,
     ENCRYPTION_ALGORITHM,
     ENCRYPTION_KEY,
-    ENCRYPTION_IV
+    ENCRYPTION_IV,
+    DB_STRING,
+    DB_NAME
 } = process.env
 
 module.exports = {
@@ -27,5 +29,9 @@ module.exports = {
         ALGORITHM: ENCRYPTION_ALGORITHM,
         KEY: ENCRYPTION_KEY,
         IV: ENCRYPTION_IV
+    },
+    DB: {
+        CON_STRING: DB_STRING,
+        NAME: DB_NAME
     }
 }

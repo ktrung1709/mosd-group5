@@ -5,7 +5,6 @@ const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
 const {SERVER} = require('../configs/main.config')
-const {bcryptHash} = require("./encryption.util");
 const User = require("../models/user.model")
 
 exports.checkIfUsernameExists = async (username, errorMsg) => {
@@ -47,15 +46,13 @@ exports.validatePassword = (password, errorMsg) => {
 };
 
 exports.createUnactivatedUser = async (username, email, password) => {
-    // TODO: create User model
-    const user = new User({
+    const user = {
         username: username,
         email: email,
-        password: bcryptHash(password, accountConfig.password.hashRounds),
+        password: await encryptionUtil.bcryptHash(password, accountConfig.password.hashRounds),
         activated: false
-    })
-    console.log(user.password);
-    await accountService.saveUser(user);
+    }
+    await accountService.saveUser(user)
     return {username: username, email: email}
 }
 

@@ -30,9 +30,5 @@ exports.decryptData = (encryptedData) => {
 }
 
 exports.bcryptHash = async (data, round = 10) => {
-    bcrypt.hash(data, round, (err, hash) => {
-        if (err) return next(err);
-        return hash;
-      });
-
+    return await bcrypt.hash(data, round)
 }
