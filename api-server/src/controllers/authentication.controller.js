@@ -66,8 +66,8 @@ exports.signin = async (req, res) => {
 exports.logout = async(req, res) => {
     req.session.destroy(err => {
         if (err) {
-          return res.send('Error logging out');
+            return res.send('Error logging out');
         }
         res.send('Logged out successfully');
-      });
+    });
 }
