@@ -50,7 +50,6 @@ exports.signin = async (req, res) => {
                             email: user.email,
                             token: token,
                         }});
-                        req.session.user = user;
                     } else {
                         console.log('Invalid email or password');
                         res.status(400).json({ message: 'Invalid email or password' });

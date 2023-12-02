@@ -17,11 +17,11 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.get('/ping', (req, res) => {
+app.get('/ping', verifyToken ,(req, res) => {
     res.json({'status': 'ok'});
 });
 
-app.use('/auth', authRoute);
+app.use('/auth' ,authRoute);
 
 const port = SERVER.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
