@@ -97,7 +97,7 @@ exports.verifyToken = async (req, res, next) => {
         }
         accountService.getUserByUsername(user.username).then(userFound => {
             if (!userFound) {
-                return res.status(400).json({ message: 'Invalid email or password' });
+                return res.status(400).json({ message: 'Not found user' });
             }
             req.user = userFound;
             next();
