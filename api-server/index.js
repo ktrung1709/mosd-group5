@@ -1,10 +1,18 @@
 const express = require('express');
 const {SERVER} = require('./src/configs/main.config');
 const db = require('./src/configs/db.config');
+const session = require('express-session');
 
 const authRoute = require('./src/routes/authentication.route');
 
 const app = express();
+
+app.use(session({
+    secret: '123456aA@', // Change this to a random secret key
+    resave: false,
+    saveUninitialized: true
+  }));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
