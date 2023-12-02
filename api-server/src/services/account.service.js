@@ -1,15 +1,16 @@
-let userModel = require("../models/user.model")
+let User = require("../models/user.model")
 
 exports.getUserByUsername = async username => {
-    throw new Error("Not implemented");
+    return User.findOne({username: username});
 };
 
 exports.saveUser = (user) => {
-    throw new Error("Not implemented");
+    let newUser = new User(user);
+    return newUser.save();
 };
 exports.getUserByUsernameAndEmail = (username, email) => {
-    throw new Error("Not implemented");
+    return User.findOne({username: username, email: email});
 };
 exports.getUserByEmail = async (email) => {
-    return userModel.findOne({email : email});
+    return User.findOne({email: email});
 }

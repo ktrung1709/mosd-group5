@@ -17,7 +17,7 @@ exports.validateUsername = (username, errorMsg) => {
     if (username.length < accountConfig.username.minLength || username.length > accountConfig.username.maxLength) {
         errorMsg.push(accountConfig.username.lengthErrMsg)
     }
-    if (username.match(accountConfig.username.regex)) {
+    if (!username.match(accountConfig.username.regex)) {
         errorMsg.push(accountConfig.username.regexErrMsg)
     }
 };
@@ -45,13 +45,12 @@ exports.validatePassword = (password, errorMsg) => {
 };
 
 exports.createUnactivatedUser = async (username, email, password) => {
-    // TODO: create User model
-    const user = new User({
+    const user = {
         username: username,
         email: email,
-        password: encryptionUtil.bcryptHash(password, accountConfig.password.hashRounds),
+        password: await encryptionUtil.bcryptHash(password, accountConfig.password.hashRounds),
         activated: false
-    })
+    }
     await accountService.saveUser(user)
     return {username: username, email: email}
 }

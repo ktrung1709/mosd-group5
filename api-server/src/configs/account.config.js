@@ -1,3 +1,4 @@
+// TODO: this.attr not working
 exports.username = {
     minLength: 5,
     maxLength: 15,
