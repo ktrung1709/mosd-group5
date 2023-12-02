@@ -25,5 +25,4 @@ exports.password = {
 exports.activation = {
     fromEmail: "usersupport@movie.com",
     emailSubject: "Activate your account",
-    expireTime: 1000 * 60 * 60 * 24 * 2 // 2 days
 }
