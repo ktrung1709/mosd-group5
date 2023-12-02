@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    activated: {
+      type: Boolean,
+      required: true
     }
 });
 const User = mongoose.model('users', userSchema);
