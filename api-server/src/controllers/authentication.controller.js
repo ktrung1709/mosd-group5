@@ -1,8 +1,9 @@
 const accountUtils = require('../utils/account.util');
-const accountConfig = require('../configs/account.config');
 const accountService = require("../services/account.service");
-const {bcryptHash} = require("../utils/encryption.util");
 const bcrypt = require("bcrypt")
+const jwt = require('jsonwebtoken');
+const {SECRET_KEY} = require('../configs/main.config');
+const { username } = require('../configs/account.config');
 
 
 exports.signup = async (req, res) => {
@@ -26,27 +27,28 @@ exports.signup = async (req, res) => {
 
     try {
         await accountUtils.createUnactivatedUser(username, email, password);
-        //await accountUtils.sendActivationEmail(username, email);
-        return {status: "ok", message: ["Account created"]};
+        await accountUtils.sendActivationEmail(username, email);
+        res.status(200).json({status: "ok", message: "Account created"});
     } catch (err) {
         res.status(500).json({status: "fail", message: ["Internal server error"]});
     }
 }
 
 exports.signin = async (req, res) => {
-    let email = req.body.email;
+    let username = req.body.username;
     let password = req.body.password;
     console.log(`EMAIL: ${email}`)
-    await accountService.getUserByEmail(email).then(user => {
+    await accountService.getUserByUsername(username).then(user => {
         if(!user){
             res.status(400).json({ message: 'Invalid email or password' });
         }else {
             bcrypt.compare(password, user.password).then(result => {
                     if (result) {
                         console.log("Login successful!");
+                        const token = jwt.sign({ id: user.id, username: user.email }, SECRET_KEY, { expiresIn: '2 days' });
                         res.status(200).json({user: {
                             email: user.email,
-                            username: user.username,
+                            token: token,
                         }});
                         req.session.user = user;
                     } else {
@@ -60,6 +62,7 @@ exports.signin = async (req, res) => {
 
 }
 
+// use JWT to auth -> maybe blacklist token when logout (implement this later)
 exports.logout = async(req, res) => {
     req.session.destroy(err => {
         if (err) {

@@ -4,8 +4,8 @@ const encryptionUtil = require('./encryption.util')
 const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
-const {SERVER} = require('../configs/main.config')
-const User = require("../models/user.model")
+const { SERVER, SECRET_KEY } = require('../configs/main.config')
+
 
 exports.checkIfUsernameExists = async (username, errorMsg) => {
     const user = await accountService.getUserByUsername(username)
@@ -52,8 +52,8 @@ exports.createUnactivatedUser = async (username, email, password) => {
         password: await encryptionUtil.bcryptHash(password, accountConfig.password.hashRounds),
         activated: false
     }
-    await accountService.saveUser(user)
-    return {username: username, email: email}
+    await accountService.saveUser(user);
+    return { username: username, email: email }
 }
 
 exports.sendActivationEmail = async (username, email) => {
@@ -80,5 +80,22 @@ exports.sendActivationEmail = async (username, email) => {
     }
 
     fs.readFile('../templates/activation-email.html', 'utf8', doSendActivationEmail)
+}
+
+exports.verifyToken = async (req, res, next) => {
+    const token = req.header('Authorization');
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Forbidden' });
+        }
+
+        req.user = user;
+        next();
+    });
 }
 
