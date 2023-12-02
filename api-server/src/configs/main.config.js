@@ -7,14 +7,11 @@ const {
     SECRET_KEY,
     SMTP_HOST,
     SMTP_PORT,
-    DB_PORT,
-    DB_HOST,
-    DB_NAME,
-    DB_USERNAME,
-    DB_PASSWORD,
     ENCRYPTION_ALGORITHM,
     ENCRYPTION_KEY,
-    ENCRYPTION_IV
+    ENCRYPTION_IV,
+    DB_STRING,
+    DB_NAME
 } = process.env
 
 module.exports = {
@@ -28,16 +25,13 @@ module.exports = {
         HOST: SMTP_HOST,
         PORT: SMTP_PORT
     },
-    DB: {
-        PORT: DB_PORT,
-        HOST: DB_HOST,
-        NAME: DB_NAME,
-        USERNAME: DB_USERNAME,
-        PASSWORD: DB_PASSWORD
-    },
     ENCRYPTION: {
         ALGORITHM: ENCRYPTION_ALGORITHM,
         KEY: ENCRYPTION_KEY,
         IV: ENCRYPTION_IV
+    },
+    DB: {
+        CON_STRING: DB_STRING,
+        NAME: DB_NAME
     }
 }
