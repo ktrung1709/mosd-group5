@@ -1,7 +1,5 @@
 const accountUtils = require('../utils/account.util');
-const accountConfig = require('../configs/account.config');
 const accountService = require("../services/account.service");
-const {bcryptHash} = require("../utils/encryption.util");
 const bcrypt = require("bcrypt")
 
 
@@ -26,8 +24,8 @@ exports.signup = async (req, res) => {
 
     try {
         await accountUtils.createUnactivatedUser(username, email, password);
-        //await accountUtils.sendActivationEmail(username, email);
-        return {status: "ok", message: ["Account created"]};
+        await accountUtils.sendActivationEmail(username, email);
+        res.status(200).json({status: "ok", message: ["Account created"]})
     } catch (err) {
         res.status(500).json({status: "fail", message: ["Internal server error"]});
     }
@@ -38,33 +36,35 @@ exports.signin = async (req, res) => {
     let password = req.body.password;
     console.log(`EMAIL: ${email}`)
     await accountService.getUserByEmail(email).then(user => {
-        if(!user){
-            res.status(400).json({ message: 'Invalid email or password' });
-        }else {
+        if (!user) {
+            res.status(400).json({message: 'Invalid email or password'});
+        } else {
             bcrypt.compare(password, user.password).then(result => {
-                    if (result) {
-                        console.log("Login successful!");
-                        res.status(200).json({user: {
+                if (result) {
+                    console.log("Login successful!");
+                    res.status(200).json({
+                        user: {
                             email: user.email,
                             username: user.username,
-                        }});
-                        req.session.user = user;
-                    } else {
-                        console.log('Invalid email or password');
-                        res.status(400).json({ message: 'Invalid email or password' });
-                    }
-                }).catch(error => console.error('Error comparing passwords:', error));
+                        }
+                    });
+                    req.session.user = user;
+                } else {
+                    console.log('Invalid email or password');
+                    res.status(400).json({message: 'Invalid email or password'});
+                }
+            }).catch(error => console.error('Error comparing passwords:', error));
         }
     });
 
 
 }
 
-exports.logout = async(req, res) => {
+exports.logout = async (req, res) => {
     req.session.destroy(err => {
         if (err) {
-          return res.send('Error logging out');
+            return res.send('Error logging out');
         }
         res.send('Logged out successfully');
-      });
+    });
 }

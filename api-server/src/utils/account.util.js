@@ -1,11 +1,11 @@
 const fs = require('fs');
+const {encode} = require('html-entities');
 
 const encryptionUtil = require('./encryption.util')
 const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
 const {SERVER} = require('../configs/main.config')
-const User = require("../models/user.model")
 
 exports.checkIfUsernameExists = async (username, errorMsg) => {
     const user = await accountService.getUserByUsername(username)
@@ -67,18 +67,18 @@ exports.sendActivationEmail = async (username, email) => {
             throw err;
         }
 
-        if (!"${username}" in html || !"${activation_link}" in html) {
+        if (!html.includes("${username}") || !html.includes("${activation_link}")) {
             throw new Error("Bad activation email template");
         }
 
-        html = html.replace('${username}', username);
+        html = html.replaceAll('${username}', encode(username));
 
         let activateLink = `http://${SERVER.HOST}:${SERVER.PORT}/activate?token=${createActivationToken()}`;
-        html = html.replace('${activation_link}', activateLink);
+        html = html.replaceAll('${activation_link}', encode(activateLink));
 
         sendEmailUtil.sendEmail(accountConfig.activation.fromEmail, email, accountConfig.activation.emailSubject, html);
     }
 
-    fs.readFile('../templates/activation-email.html', 'utf8', doSendActivationEmail)
+    fs.readFile('src/templates/activation-email.html', 'utf8', doSendActivationEmail)
 }
 
