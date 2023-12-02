@@ -1,6 +1,5 @@
 const express = require("express");
 const authController = require("../controllers/authentication.controller");
-const verifyToken = require("../utils/account.util")
 
 const router = express.Router();
 

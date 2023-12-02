@@ -21,7 +21,7 @@ app.get('/ping', (req, res) => {
     res.json({'status': 'ok'});
 });
 
-app.use('/auth', authRoute);
+app.use('/auth', verifyToken ,authRoute);
 
 const port = SERVER.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
