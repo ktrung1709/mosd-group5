@@ -4,7 +4,6 @@ const db = require('./src/configs/db.config');
 const session = require('express-session');
 
 const authRoute = require('./src/routes/authentication.route');
-
 const {verifyToken} = require('./src/utils/account.util');
 
 const app = express();

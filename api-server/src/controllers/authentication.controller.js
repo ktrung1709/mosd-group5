@@ -3,7 +3,7 @@ const accountService = require("../services/account.service");
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 const {SECRET_KEY} = require('../configs/main.config');
-
+const { username } = require('../configs/account.config');
 
 exports.signup = async (req, res) => {
     let username = req.body.username;
