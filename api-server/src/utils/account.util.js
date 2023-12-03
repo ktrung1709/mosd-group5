@@ -5,7 +5,6 @@ const encryptionUtil = require('./encryption.util')
 const sendEmailUtil = require('./sendmail.util')
 const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
-const jwt = require('jsonwebtoken')
 const { SERVER, SECRET_KEY } = require('../configs/main.config')
 const jwt = require("jsonwebtoken");
 

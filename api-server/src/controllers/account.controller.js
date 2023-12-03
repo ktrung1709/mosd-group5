@@ -19,6 +19,6 @@ exports.activate = async (req, res) => {
     user.activated = true
     await accountService.saveUser(user);
 
-    return {status: "ok", message: ["Account activated"]};
+    return res.status(200).json({status: "ok", message: ["Account activated"]});
 }
 

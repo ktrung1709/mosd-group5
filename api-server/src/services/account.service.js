@@ -12,3 +12,7 @@ exports.saveUser = (user) => {
 exports.getUserByEmail = async (email) => {
     return User.findOne({email: email});
 };
+
+exports.getUserByUsernameAndEmail = async (username,email) => {
+    return User.findOne({username: username, email: email});
+};
