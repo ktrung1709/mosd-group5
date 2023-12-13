@@ -9,6 +9,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const UserModel = require("../models/user.model");
 const nodemailer = require("nodemailer");
+const encryptionUtil = require('../utils/encryption.util');
+const accountConfig = require('../configs/account.config')
 
 exports.signup = async (req, res) => {
     let username = req.body.username;
