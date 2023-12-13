@@ -47,7 +47,8 @@ exports.signin = async (req, res) => {
                         const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '2 days' });
                         res.status(200).json({
                             status: 'ok',
-                            token: token
+                            token: token,
+                            username: username
                         });
                     } else {
                         console.log('Invalid email or password');
@@ -62,7 +63,7 @@ exports.signin = async (req, res) => {
 
 // use JWT to auth -> maybe blacklist token when logout (implement this later)
 exports.logout = async(req, res) => {
-    req.session.destroy(err => {
+    req?.session?.destroy(err => {
         if (err) {
             return res.send('Error logging out');
         }
