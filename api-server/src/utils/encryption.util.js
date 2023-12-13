@@ -21,10 +21,10 @@ exports.encryptData = (data) => {
 }
 
 exports.decryptData = (encryptedData) => {
-    const buff = Buffer.from(encryptedData, 'hex')
     const decipher = crypto.createDecipheriv(ENCRYPTION.ALGORITHM, key, encryptionIV)
+    const buff = Buffer.from(encryptedData, 'hex')
     return (
-        decipher.update(buff.toString('utf8'), 'hex', 'utf8') +
+        decipher.update(buff, 'hex', 'utf8') +
         decipher.final('utf8')
     )
 }
