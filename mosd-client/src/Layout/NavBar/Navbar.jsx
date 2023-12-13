@@ -1,9 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
 import "./Navbar.css";
 import { CgUser } from "react-icons/cg";
+import { IoIosArrowDown } from "react-icons/io";
+import { useState } from "react";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username");
+  const [openDropdown, setOpenDropdown] = useState(false);
   const hover = "hover:text-subMain transitions text-white";
   const Hover = ({ isActive }) => (isActive ? "text-subMain" : hover);
   return (
@@ -37,18 +42,14 @@ const NavBar = () => {
         </div>
         {/*  Menu */}
         <div className="col-span-3 font-medium text-sm hidden xl:gap-14 2xl:gap-20 justify-between lg:flex xl:justify-end items-center">
-          <NavLink to="/movies" className={Hover}>
+          <NavLink to="/movies" className={`${Hover} text-center`}>
             Movies
           </NavLink>
-          <NavLink to="/about-us" className={Hover}>
+          <NavLink to="/about-us" className={`${Hover} text-center`}>
             About us
           </NavLink>
-          <NavLink to="/contact-us" className={Hover}>
+          <NavLink to="/contact-us" className={`${Hover} text-center`}>
             Contact us
-          </NavLink>
-          <NavLink to="/login" className={`user-action-button ${Hover}`}>
-            <CgUser className="w-8 h-8" />
-            Login
           </NavLink>
           <NavLink to="/favorite" className={`${Hover} relative`}>
             <FaHeart className="w-6 h-6" />
@@ -56,6 +57,44 @@ const NavBar = () => {
               3
             </div>
           </NavLink>
+          {!username ? (
+            <NavLink to="/login" className={`user-action-button ${Hover}`}>
+              Login
+            </NavLink>
+          ) : (
+            <>
+              <p className={`${Hover} flex items-center relative`}>
+                <p className="flex-col user-action-button">
+                  <CgUser className="w-8 h-8" />
+                  {username}
+                </p>
+                <IoIosArrowDown
+                  className="w-6 h-6 hover:cursor-pointer"
+                  onClick={() => setOpenDropdown(!openDropdown)}
+                />
+                {openDropdown && (
+                  <div className="absolute top-full left-0 bg-white mt-1 rounded shadow-md w-full">
+                    {/* Nội dung của dropdown */}
+                    <NavLink
+                      to="/profile"
+                      className="block text-black h-9 dropdown"
+                    >
+                      <p>Profile</p>
+                    </NavLink>
+                    <p
+                      className="block text-black h-9 dropdown"
+                      onClick={() => {
+                        localStorage.clear();
+                        navigate("/");
+                      }}
+                    >
+                      <p>Logout</p>
+                    </p>
+                  </div>
+                )}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

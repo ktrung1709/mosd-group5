@@ -1,8 +1,19 @@
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginUser,
+  registerUser,
+  resetCodes,
+} from "../../features/auth/authSlice.js";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loginCode = useSelector((state) => state.auth.loginCode);
   const {
     register,
     handleSubmit,
@@ -11,14 +22,30 @@ const LoginPage = () => {
     mode: "onChange",
     criteriaMode: "all",
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   const onSubmit = (data) => {
-    alert(data.email);
+    console.log("okay");
+    dispatch(loginUser(data));
   };
+
+  useEffect(() => {
+    const handleLoginSuccess = () => {
+      toast.success("User login successfully", { autoClose: 1500 });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    };
+
+    if (loginCode === 1) {
+      handleLoginSuccess();
+    } else if (loginCode === 2)
+      toast.error("Invalid email or password", { autoClose: 2000 });
+    dispatch(resetCodes());
+  }, [dispatch, loginCode, navigate]);
 
   return (
     <Layout>
@@ -29,21 +56,23 @@ const LoginPage = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="username"
                   className="block text-gray-600 text-sm font-bold"
                 >
-                  Email:
+                  Username:
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="username"
+                  name="username"
+                  id="username"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("username", {
+                    required: "username is required",
+                  })}
                 />
-                {errors?.email && (
+                {errors?.username && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter email address.
+                    Please enter username.
                   </p>
                 )}
               </div>

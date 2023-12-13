@@ -1,27 +1,54 @@
 import { useForm } from "react-hook-form";
 import Layout from "../../Layout/Layout.jsx";
+import { registerUser, resetCodes } from "../../features/auth/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const registerCode = useSelector((state) => state.auth.registerCode);
+  console.log("registerCode: ", registerCode);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     mode: "onChange",
     criteriaMode: "all",
     defaultValues: {
+      username: "",
       email: "",
       password: "",
-      cfPassword: "",
-      phoneNumber: "",
-      name: "",
     },
   });
 
   const onSubmit = (data) => {
-    alert(data.email);
+    dispatch(registerUser(data));
   };
+
+  useEffect(() => {
+    const handleRegisterSuccess = () => {
+      toast.success("User register successfully", { autoClose: 1500 });
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    };
+
+    if (registerCode === 1) {
+      handleRegisterSuccess();
+    } else if (registerCode === 2)
+      toast.error("Username already exists", { autoClose: 2000 });
+    else if (registerCode === 3)
+      toast.error("Invalid email address", { autoClose: 2000 });
+    else if (registerCode === 4)
+      toast.error("Username already exists", { autoClose: 2000 });
+    else if (registerCode === 5)
+      toast.error("Email already exists", { autoClose: 2000 });
+    dispatch(resetCodes());
+  }, [dispatch, registerCode, navigate]);
 
   return (
     <Layout>
@@ -30,6 +57,29 @@ const RegisterPage = () => {
           <div className="mx-auto mt-8">
             <h1 className="text-3xl font-bold mb-4 text-center">Sign up</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-4 mt-5">
+                <label
+                  htmlFor="Name"
+                  className="block text-gray-600 text-sm font-bold"
+                >
+                  Username:
+                </label>
+                <input
+                  type="name"
+                  name="name"
+                  id="name"
+                  autoComplete="off"
+                  className="w-full mt-2 px-3 py-2 border rounded-md text-black"
+                  {...register("username", {
+                    required: "Username is required",
+                  })}
+                />
+                {errors?.username && (
+                  <p className="text-red-400 text-xs mt-1">
+                    Please enter username.
+                  </p>
+                )}
+              </div>
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -47,51 +97,6 @@ const RegisterPage = () => {
                 {errors?.email && (
                   <p className="text-red-400 text-xs mt-1">
                     Please enter email address.
-                  </p>
-                )}
-              </div>
-              <div className="mb-4 mt-5">
-                <label
-                  htmlFor="Name"
-                  className="block text-gray-600 text-sm font-bold"
-                >
-                  Name:
-                </label>
-                <input
-                  type="name"
-                  name="name"
-                  id="name"
-                  autoComplete="off"
-                  className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("name", { required: "name is required" })}
-                />
-                {errors?.name && (
-                  <p className="text-red-400 text-xs mt-1">
-                    Please enter name.
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-4 mt-5">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-gray-600 text-sm font-bold"
-                >
-                  Phone Number:
-                </label>
-                <input
-                  type="phoneNumber"
-                  name="phoneNumber"
-                  id="phoneNumber"
-                  autoComplete="off"
-                  className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("phoneNumber", {
-                    required: "Phone Number is required",
-                  })}
-                />
-                {errors?.phoneNumber && (
-                  <p className="text-red-400 text-xs mt-1">
-                    Please enter phone number.
                   </p>
                 )}
               </div>
@@ -119,34 +124,7 @@ const RegisterPage = () => {
                   </p>
                 )}
               </div>
-              <div className="mb-4 mt-5">
-                <label
-                  htmlFor="cdPassword"
-                  className="block text-gray-600 text-sm font-bold"
-                >
-                  Confirm Password:
-                </label>
-                <input
-                  type="password"
-                  name="cfPassword"
-                  id="cfPassword"
-                  autoComplete="off"
-                  className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("cfPassword", {
-                    required: "Confirm Password is required",
-                    validate: (value) => {
-                      if (watch("password") !== value) {
-                        return "Your passwords do no match";
-                      }
-                    },
-                  })}
-                />
-                {errors?.cfPassword && (
-                  <p className="text-red-400 text-xs mt-1">
-                    {errors.cfPassword.message}
-                  </p>
-                )}
-              </div>
+
               <div className="flex justify-center">
                 <button
                   type="submit"

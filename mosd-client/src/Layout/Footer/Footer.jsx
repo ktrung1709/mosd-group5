@@ -28,7 +28,7 @@ const Footer = () => {
         { name: "Dashboard", link: "/dashboard" },
         { name: "My Favorite", link: "/favorite" },
         { name: "Profile", link: "/profile" },
-        { name: "Change Password", link: "/password" },
+        { name: "Change Password", link: "/change-password" },
       ],
     },
   ];
