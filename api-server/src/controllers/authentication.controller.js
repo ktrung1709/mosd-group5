@@ -54,7 +54,8 @@ exports.signin = async (req, res) => {
                         const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '2 days' });
                         res.status(200).json({
                             status: 'ok',
-                            token: token
+                            token: token,
+                            username: username
                         });
                     } else {
                         console.log('Invalid email or password');
@@ -88,14 +89,14 @@ exports.forgotPassword = async (req, res) => {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'thinh.hust5171@gmail.com',
-              pass: 'xwua yuru wtqq vdpr'
+              user: process.env.EMAIL_FROM,
+              pass: process.env.EMAIL_PASSWORD
             }
           });
           
           var mailOptions = {
-            from: 'thinh.hust5171@gmail.com',
-            to: 'hoangvanphuong6402@gmail.com',
+            from: process.env.EMAIL_FROM,
+            to: email,
             subject: 'Reset Password Link',
             text: `http://localhost:5173/reset_password/${user._id}/${token}`
           };
