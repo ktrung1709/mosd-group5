@@ -1,4 +1,3 @@
-import React from "react";
 import Title from "../Title/Title.jsx";
 import { BsCollectionFill } from "react-icons/bs";
 import { Movies } from "../../Data/MovieData.js";

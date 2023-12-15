@@ -4,7 +4,6 @@ import Layout from "../../Layout/Layout.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
-  registerUser,
   resetCodes,
 } from "../../features/auth/authSlice.js";
 import { useEffect } from "react";
@@ -43,7 +42,7 @@ const LoginPage = () => {
     if (loginCode === 1) {
       handleLoginSuccess();
     } else if (loginCode === 2)
-      toast.error("Invalid email or password", { autoClose: 2000 });
+      toast.error("Invalid username or password", { autoClose: 2000 });
     dispatch(resetCodes());
   }, [dispatch, loginCode, navigate]);
 
@@ -100,11 +99,17 @@ const LoginPage = () => {
                   </p>
                 )}
               </div>
-              <div className="flex justify-center">
-                <p className="text-sm">
+              <div className="flex justify-center flex-col items-center">
+                <p className="text-sm pb-3">
                   Don&apos;t have an account yet?{" "}
                   <NavLink to="/register" className="text-blue-500">
                     Register here
+                  </NavLink>
+                </p>
+                <p className="text-sm">
+                  Do not remember password?{" "}
+                  <NavLink to="/forgot-password" className="text-blue-500">
+                    Click here
                   </NavLink>
                 </p>
               </div>

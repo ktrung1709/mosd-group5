@@ -1,6 +1,7 @@
-import React from "react";
 import MainModal from "./MainModal.jsx";
 import { Input } from "../Utils/Inputs.jsx";
+import PropTypes from "prop-types";
+import { categoryPropTypes } from "../../PropTypes/categoryPropTypes.js";
 
 function AddCategory({ modalOpen, setModalOpen, category }) {
   return (
@@ -10,7 +11,7 @@ function AddCategory({ modalOpen, setModalOpen, category }) {
         <form className="flex flex-col gap-6 text-left mt-6">
           <Input
             label="Category Name"
-            placeholder={category ? category.title : "Actions"}
+            placeholder={category ? category?.title : "Actions"}
             type="text"
             bg={false}
           />
@@ -25,5 +26,11 @@ function AddCategory({ modalOpen, setModalOpen, category }) {
     </MainModal>
   );
 }
+
+AddCategory.propTypes = {
+  modalOpen: PropTypes.bool.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
+  category: categoryPropTypes.isRequired, 
+};
 
 export default AddCategory;

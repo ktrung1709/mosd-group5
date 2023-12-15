@@ -1,11 +1,17 @@
-import {useForm} from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import Layout from "../../../Layout/Layout.jsx";
+import { apiResetPassword } from "../../../utils/api.js";
+import { getItemWithExpiration } from "../../../utils/localStorage.js";
+import { toast } from "react-toastify";
 
 const PasswordPage = () => {
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
-        formState: {errors},
+        formState: { errors },
+        watch
     } = useForm({
         mode: "onChange",
         criteriaMode: "all",
@@ -15,9 +21,20 @@ const PasswordPage = () => {
             confirmPassword: "",
         },
     });
+    const newPassword = watch("newPassword", "");
+    const token = getItemWithExpiration("resetPasswordToken");
 
-    const onSubmit = (data) => {
-        alert("Change password logic here"); // Add your change password logic
+    const onSubmit = async (data) => {
+        const respone = await apiResetPassword(window.location.pathname.split('/')[2], token, data.newPassword);
+        console.log("respone: ", respone)
+        if (respone) {
+            toast.success("Password changed successfully", { autoClose: 1500 });
+            setTimeout(() => {
+                navigate("/signin");
+            }, 1000);
+        }
+        else
+            toast.error("Something went wrong", { autoClose: 2000 });
     };
 
     return (
@@ -25,29 +42,34 @@ const PasswordPage = () => {
             <div className="container mx-auto px-2 mb-28 mt-6">
                 <div className="bg-dry px-10 pt-2 pb-10 mx-auto border rounded-md md:w-1/2">
                     <div className="mx-auto mt-8">
-                        <h1 className="text-3xl font-bold mb-4 text-center">Change Password</h1>
+                        <h1 className="text-3xl font-bold mb-4 text-center">{window.location.pathname.includes('reset') ? "Reset Password" : "Change Password"}</h1>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="mb-4">
-                                <label
-                                    htmlFor="currentPassword"
-                                    className="block text-gray-600 text-sm font-bold"
-                                >
-                                    Current Password:
-                                </label>
-                                <input
-                                    type="password"
-                                    name="currentPassword"
-                                    id="currentPassword"
-                                    autoComplete="off"
-                                    className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                                    {...register("currentPassword", {required: "Current Password is required"})}
-                                />
-                                {errors?.currentPassword && (
-                                    <p className="text-red-400 text-xs mt-1">
-                                        Please enter your current password.
-                                    </p>
-                                )}
-                            </div>
+                            {
+                                !window.location.pathname.includes('reset') ?
+                                    (
+                                        <div className="mb-4">
+                                            <label
+                                                htmlFor="currentPassword"
+                                                className="block text-gray-600 text-sm font-bold"
+                                            >
+                                                Current Password:
+                                            </label>
+                                            <input
+                                                type="password"
+                                                name="currentPassword"
+                                                id="currentPassword"
+                                                autoComplete="off"
+                                                className="w-full mt-2 px-3 py-2 border rounded-md text-black"
+                                                {...register("currentPassword", { required: "Current Password is required" })}
+                                            />
+                                            {errors?.currentPassword && (
+                                                <p className="text-red-400 text-xs mt-1">
+                                                    Please enter your current password.
+                                                </p>
+                                            )}
+                                        </div>
+                                    ) : <></>
+                            }
 
                             <div className="mb-4">
                                 <label
@@ -88,6 +110,8 @@ const PasswordPage = () => {
                                     className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                                     {...register("confirmPassword", {
                                         required: "Confirm New Password is required",
+                                        validate: (value) =>
+                                            value === newPassword || "Confirm asswords do not match",
                                     })}
                                 />
                                 {errors?.confirmPassword && (

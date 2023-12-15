@@ -10,7 +10,6 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const registerCode = useSelector((state) => state.auth.registerCode);
-  console.log("registerCode: ", registerCode);
   const {
     register,
     handleSubmit,
@@ -47,6 +46,8 @@ const RegisterPage = () => {
       toast.error("Username already exists", { autoClose: 2000 });
     else if (registerCode === 5)
       toast.error("Email already exists", { autoClose: 2000 });
+    else if (registerCode === 6)
+      toast.error("Password must contain at least one uppercase letter, one lowercase letter, one number and one special character", { autoClose: 2000 });
     dispatch(resetCodes());
   }, [dispatch, registerCode, navigate]);
 

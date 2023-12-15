@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { IoClose } from "react-icons/io5";
-
+import PropTypes from "prop-types"
 function MainModal({ modalOpen, setModalOpen, children }) {
   const cancelButtonRef = useRef();
   return (
@@ -60,4 +60,9 @@ function MainModal({ modalOpen, setModalOpen, children }) {
   );
 }
 
+MainModal.propTypes = {
+  modalOpen: PropTypes.bool.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
 export default MainModal;
