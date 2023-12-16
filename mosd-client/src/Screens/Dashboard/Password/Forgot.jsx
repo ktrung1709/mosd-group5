@@ -42,10 +42,18 @@ const ForgotPage = () => {
                   id="email"
                   autoComplete="off"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
                 {errors?.email && (
-                  <p className="text-red-400 text-xs mt-1">Please enter your email address.</p>
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 

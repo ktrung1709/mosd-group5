@@ -60,11 +60,21 @@ const PasswordPage = () => {
                                                 id="currentPassword"
                                                 autoComplete="off"
                                                 className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                                                {...register("currentPassword", { required: "Current Password is required" })}
+                                                {...register("currentPassword", {
+                                                    required: "Current Password is required",
+                                                    minLength: {
+                                                        value: 8,
+                                                        message: "Password must be at least 8 characters",
+                                                    },
+                                                    pattern: {
+                                                        value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                                        message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+                                                    },
+                                                })}
                                             />
                                             {errors?.currentPassword && (
                                                 <p className="text-red-400 text-xs mt-1">
-                                                    Please enter your current password.
+                                                    {errors.password.message}
                                                 </p>
                                             )}
                                         </div>
@@ -86,11 +96,19 @@ const PasswordPage = () => {
                                     className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                                     {...register("newPassword", {
                                         required: "New Password is required",
+                                        minLength: {
+                                            value: 8,
+                                            message: "Password must be at least 8 characters",
+                                        },
+                                        pattern: {
+                                            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                            message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+                                        },
                                     })}
                                 />
                                 {errors?.newPassword && (
                                     <p className="text-red-400 text-xs mt-1">
-                                        Please enter your new password.
+                                        {errors.newPassword.message}
                                     </p>
                                 )}
                             </div>
@@ -111,12 +129,12 @@ const PasswordPage = () => {
                                     {...register("confirmPassword", {
                                         required: "Confirm New Password is required",
                                         validate: (value) =>
-                                            value === newPassword || "Confirm asswords do not match",
+                                            value === newPassword || "Confirm passwords do not match",
                                     })}
                                 />
                                 {errors?.confirmPassword && (
                                     <p className="text-red-400 text-xs mt-1">
-                                        Please confirm your new password.
+                                        {errors.confirmPassword.message}
                                     </p>
                                 )}
                             </div>

@@ -11,47 +11,47 @@ function SideBar({ children }) {
   const SideLinks = [
     {
       name: "Dashboard",
-      link: "/dashboard/admin",
+      link: "/dashboard",
       icon: BsFillGridFill,
     },
     {
       name: "Movies List",
-      link: "/dashboard/admin/movies-list",
+      link: "/movies-list",
       icon: FaListAlt,
     },
     {
       name: "Add Movie",
-      link: "/dashboard/admin/addmovie",
+      link: "/addmovie",
       icon: RiMovie2Fill,
     },
     {
       name: "Categories",
-      link: "/dashboard/admin/categories",
+      link: "/categories",
       icon: HiViewGridAdd,
     },
     {
       name: "Users",
-      link: "/dashboard/admin/users",
+      link: "/users",
       icon: FaUsers,
     },
     {
       name: "Update Profile",
-      link: "/dashboard/profile",
+      link: "/profile",
       icon: FiSettings,
     },
     {
       name: "Favorites Movies",
-      link: "/dashboard/favorites",
+      link: "/favorite-movies",
       icon: FaHeart,
     },
     {
       name: "Change Password",
-      link: "/dashboard/password",
+      link: "/change-password",
       icon: RiLockPasswordLine,
     },
   ];
   const active = "bg-dryGray text-subMain";
-  const hover = "hover:text-white hover:bg-main";
+  const hover = "hover:text-white hover:bg-gray-500";
   const inActive =
     "rounded font-medium text-sm transitions flex gap-3 items-center p-4";
   const Hover = ({ isActive }) =>
@@ -59,7 +59,7 @@ function SideBar({ children }) {
 
   return (
     <Layout>
-      <div className="min-h-screen container mx-auto px-2">
+      <div className="min-h-screen container mx-auto px-2 hover:bg-">
         <div className="xl:grid grid-cols-8 gap-10 items-start md:py-12 py-6">
           <div className="col-span-2 sticky bg-dry border border-gray-800 p-6 rounded-md xl:mb-0 mb-5">
             {

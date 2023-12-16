@@ -2,7 +2,7 @@ const accountUtils = require('../utils/account.util');
 const accountService = require("../services/account.service");
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = require('../configs/main.config');
+const { SECRET_KEY, MAIL } = require('../configs/main.config');
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -89,12 +89,12 @@ exports.forgotPassword = async (req, res) => {
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: process.env.EMAIL_FROM,
-                    pass: process.env.EMAIL_PASSWORD
+                    user: MAIL.FROM,
+                    pass: MAIL.PASSWORD
                 }
             });
             var mailOptions = {
-                from: process.env.EMAIL_FROM,
+                from: MAIL.FROM,
                 to: req.body.email,
                 subject: 'Reset Password Link',
                 text: `http://localhost:5173/reset-password/${user._id}`,

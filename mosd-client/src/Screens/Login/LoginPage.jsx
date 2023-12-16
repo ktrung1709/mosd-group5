@@ -66,12 +66,24 @@ const LoginPage = () => {
                   id="username"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("username", {
-                    required: "username is required",
+                    required: "Username is required",
+                    minLength: {
+                      value: 5,
+                      message: "Username must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: "Username must be at most 15 characters",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: "Username must contain only letters and numbers",
+                    },
                   })}
                 />
                 {errors?.username && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter username.
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -91,11 +103,19 @@ const LoginPage = () => {
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("password", {
                     required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+                    },
                   })}
                 />
                 {errors?.password && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter password.
+                    {errors.password.message}
                   </p>
                 )}
               </div>
