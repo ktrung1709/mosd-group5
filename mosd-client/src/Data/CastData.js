@@ -21,7 +21,7 @@ export const Casts = [
   {
     fullName: "Christopher “Chris” Hemsworth",
     image:
-      "https://cdnimg.vietnamplus.vn/uploaded/mzdic/2014_11_19/chrishemsworth435.jpg",
+      "https://people.com/thmb/XX-VALmdb9KBX5rBqErzpEoHIuM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(999x0:1001x2)/chris-hemsworth-061523-5eabcf7c33174fdc9432d35fdc259015.jpg",
   },
   {
     fullName: "Samuel Leroy Jackson",

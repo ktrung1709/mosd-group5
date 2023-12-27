@@ -10,11 +10,11 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const registerCode = useSelector((state) => state.auth.registerCode);
-  console.log("registerCode: ", registerCode);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch
   } = useForm({
     mode: "onChange",
     criteriaMode: "all",
@@ -22,9 +22,10 @@ const RegisterPage = () => {
       username: "",
       email: "",
       password: "",
+      confirmPassword: ""
     },
   });
-
+  const password = watch("password", "");
   const onSubmit = (data) => {
     dispatch(registerUser(data));
   };
@@ -47,6 +48,8 @@ const RegisterPage = () => {
       toast.error("Username already exists", { autoClose: 2000 });
     else if (registerCode === 5)
       toast.error("Email already exists", { autoClose: 2000 });
+    else if (registerCode === 6)
+      toast.error("Password must contain at least one uppercase letter, one lowercase letter, one number and one special character", { autoClose: 2000 });
     dispatch(resetCodes());
   }, [dispatch, registerCode, navigate]);
 
@@ -72,11 +75,23 @@ const RegisterPage = () => {
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("username", {
                     required: "Username is required",
+                    minLength: {
+                      value: 5,
+                      message: "Username must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: "Username must be at most 15 characters",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: "Username must contain only letters and numbers",
+                    },
                   })}
                 />
                 {errors?.username && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter username.
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -92,11 +107,18 @@ const RegisterPage = () => {
                   name="email"
                   id="email"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email",
+                    {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
+                        message: "Invalid email address",
+                      },
+                    })}
                 />
                 {errors?.email && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter email address.
+                    {errors.email.message}
                   </p>
                 )}
               </div>
@@ -116,11 +138,45 @@ const RegisterPage = () => {
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("password", {
                     required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+                    },
                   })}
                 />
                 {errors?.password && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter password.
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-4 mt-5">
+                <label
+                  htmlFor="password"
+                  className="block text-gray-600 text-sm font-bold"
+                >
+                  Confirm password:
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  autoComplete="off"
+                  className="w-full mt-2 px-3 py-2 border rounded-md text-black"
+                  {...register("confirmPassword", {
+                    required: "Confirm password is required",
+                    validate: value =>
+                      value === password || "Confirm password must match the password",
+                  })}
+                />
+                {errors?.confirmPassword && (
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors.confirmPassword.message}
                   </p>
                 )}
               </div>

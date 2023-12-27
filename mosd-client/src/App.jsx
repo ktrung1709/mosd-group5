@@ -8,6 +8,14 @@ import RegisterPage from "./Screens/Register/RegisterPage.jsx";
 import PasswordPage from "./Screens/Dashboard/Password/Password.jsx";
 import ForgotPage from "./Screens/Dashboard/Password/Forgot.jsx";
 import MovieDetailPage from "./Screens/MovieDetail/MovieDetailPage.jsx";
+import AddMovie from "./Screens/Dashboard/Admin/AddMovies/AddMovies.jsx";
+import Categories from "./Screens/Dashboard/Admin/Categories/Categories.jsx";
+import MoviesList from "./Screens/Dashboard/Admin/MovieList/MovieList.jsx";
+import Profile from "./Screens/Dashboard/Profile/Profile.jsx";
+import FavoriteMovies from "./Screens/Dashboard/FavoriteMovies/FavoriteMovies.jsx";
+import Dashboard from "./Screens/Dashboard/Admin/DashBoard/DashBoard.jsx";
+import Users from "./Screens/Dashboard/Admin/Users/Users.jsx";
+import MovieListPage from "./Screens/MovieList/MovieListPage.jsx";
 
 const App = () => {
   return (
@@ -19,7 +27,18 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/change-password" element={<PasswordPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
+      <Route path="/movies" element={<MovieListPage />} />
       <Route path="/movie/:name" element={<MovieDetailPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/addmovie" element={<AddMovie />} />
+      <Route path="/categories" element={<Categories />} />
+      <Route path="/movies-list" element={<MoviesList />} />
+      <Route path="/favorite-movies" element={<FavoriteMovies />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="/change-password" element={<PasswordPage />} />
+      <Route path="/reset-password/:userId" element={<PasswordPage />} />
+      {/* <Route path="/dashboard/admin/users" element={<Users />} /> */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

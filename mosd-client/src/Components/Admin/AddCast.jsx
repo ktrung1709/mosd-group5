@@ -1,7 +1,7 @@
-import React from "react";
 import MainModal from "./MainModal.jsx";
+import PropTypes from "prop-types";
 import { Input, Uploader } from "../Utils/Inputs.jsx";
-
+import { castPropTypes } from "../../PropTypes/CastPropTypes.js";
 
 function AddCast({ modalOpen, setModalOpen, cast }) {
   return (
@@ -13,7 +13,7 @@ function AddCast({ modalOpen, setModalOpen, cast }) {
         <form className="flex flex-col gap-6 text-left mt-6">
           <Input
             label="Cast Name"
-            placeholder={cast ? cast.fullName : "John Doe"}
+            placeholder={cast ? cast?.fullName : "John Doe"}
             type="text"
             bg={false}
           />
@@ -22,7 +22,7 @@ function AddCast({ modalOpen, setModalOpen, cast }) {
             <Uploader />
             <div className="w-32 h-32 p-2 bg-main border border-border rounded">
               <img
-                src={`/images/${cast ? cast.image : "user.png"}`}
+                src={`/images/${cast ? cast?.image : "user.png"}`}
                 alt={cast?.fullName}
                 className="w-full h-full object-cover rounded"
               />
@@ -39,5 +39,11 @@ function AddCast({ modalOpen, setModalOpen, cast }) {
     </MainModal>
   );
 }
+
+AddCast.propTypes = {
+  modalOpen: PropTypes.bool.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
+  cast: castPropTypes.isRequired, 
+};
 
 export default AddCast;

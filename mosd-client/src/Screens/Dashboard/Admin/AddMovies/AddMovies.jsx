@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Input, Message, Select, Uploader } from "../../../Components/Utils/Inputs.jsx";
-import SideBar from "../SideBar/SideBar.jsx";
-import { CategoriesData } from "../../../Data/CategoriesData";
+import { useEffect, useState } from "react";
+import { Input, Message, Select, Uploader } from "../../../../Components/Utils/Inputs.jsx";
+import SideBar from "../../SideBar/SideBar.jsx";
+import { CategoriesData } from "../../../../Data/CategoriesData";
 import { ImUpload } from "react-icons/im";
-import AddCast from "../../../Components/Admin/AddCast.jsx";
+import AddCast from "../../../../Components/Admin/AddCast.jsx";
 
 function AddMovie() {
     const [modalOpen, setModalOpen] = useState(false);

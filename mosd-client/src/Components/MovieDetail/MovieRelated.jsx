@@ -1,4 +1,3 @@
-import React from "react";
 import Title from "../Title/Title.jsx";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { Movies } from "../../Data/MovieData.js";

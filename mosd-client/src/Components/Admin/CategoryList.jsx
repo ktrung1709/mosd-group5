@@ -1,6 +1,8 @@
-import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import PropTypes from "prop-types"
+import { categoryPropTypes } from "../../PropTypes/categoryPropTypes";
+import { userPropTypes } from "../../PropTypes/UserPropTypes";
 
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
@@ -66,6 +68,12 @@ function CategoryList({ data, users, OnEditFunction }) {
       </table>
     </div>
   );
+}
+
+CategoryList.propTypes = {
+  data: categoryPropTypes.isRequired,
+  users: userPropTypes.isRequired,
+  OnEditFunction: PropTypes.func.isRequired
 }
 
 export default CategoryList;

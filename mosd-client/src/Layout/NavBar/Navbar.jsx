@@ -1,9 +1,10 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHeart, FaSearch } from "react-icons/fa";
-import "./Navbar.css";
 import { CgUser } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "./Navbar.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -86,6 +87,7 @@ const NavBar = () => {
                       onClick={() => {
                         localStorage.clear();
                         navigate("/");
+                      toast.success("User logout successfully", { autoClose: 1500 });
                       }}
                     >
                       <p>Logout</p>
