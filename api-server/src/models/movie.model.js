@@ -13,11 +13,24 @@ const movieSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    description: {
+    language: {
         type: String,
+        required: true
     },
-    rating: {
+    desc: {
+        type: String
+    },
+    thumnail: {
+        type: String
+    },
+    image: {
+        type: String
+    },
+    rate: {
         type: Number,
+    },
+    time: {
+        type: String
     },
     videoUrl: {
         type: String,
