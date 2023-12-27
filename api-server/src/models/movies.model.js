@@ -4,22 +4,35 @@ const bcrypt = require('bcrypt');
 const { ObjectId } = require('bson');
 
 const movieSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
-    genre: [{
+    categories: [{
         type: String,
     }],
-    releaseDate: {
-        type: Date,
+    year: {
+        type: Number,
         required: true
     },
-    description: {
+    language: {
         type: String,
+        required: true
     },
-    rating: {
+    desc: {
+        type: String
+    },
+    thumnail: {
+        type: String
+    },
+    image: {
+        type: String
+    },
+    rate: {
         type: Number,
+    },
+    time: {
+        type: String
     },
     videoUrl: {
         type: String,
