@@ -1,4 +1,3 @@
-import { moviePropTypes } from "../../PropTypes/MoviePropTypes.js";
 import Title from "../Title/Title.jsx";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { Autoplay } from "swiper/modules";

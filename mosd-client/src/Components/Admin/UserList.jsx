@@ -1,12 +1,13 @@
-import React from "react";
-import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import PropTypes from "prop-types"
+import { moviePropTypes } from "../../PropTypes/MoviePropTypes";
+import { userPropTypes } from "../../PropTypes/UserPropTypes";
 
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
 
 // rows
-const Rows = (data, i, users, OnEditFunction) => {
+const Rows = (data, i) => {
   return (
     <tr key={i}>
       {/* users */}
@@ -88,6 +89,12 @@ function UserList({ data, users, OnEditFunction }) {
       </table>
     </div>
   );
+}
+
+UserList.propTypes = {
+  data: PropTypes.arrayOf(moviePropTypes).isRequired,
+  users: PropTypes.arrayOf(userPropTypes).isRequired,
+  OnEditFunction: PropTypes.func.isRequired
 }
 
 export default UserList;

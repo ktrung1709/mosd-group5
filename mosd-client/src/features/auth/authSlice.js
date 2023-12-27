@@ -80,6 +80,12 @@ export const authSlice = createSlice({
           action?.payload?.response?.data?.message?.length === 1
         )
           state.registerCode = 5;
+          if (
+            action?.payload?.response?.data?.message[0] ===
+              "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character" &&
+            action?.payload?.response?.data?.message?.length === 1
+          )
+            state.registerCode = 6;
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;

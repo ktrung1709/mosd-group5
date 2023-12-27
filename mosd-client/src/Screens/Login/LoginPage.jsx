@@ -4,7 +4,6 @@ import Layout from "../../Layout/Layout.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
-  registerUser,
   resetCodes,
 } from "../../features/auth/authSlice.js";
 import { useEffect } from "react";
@@ -43,7 +42,7 @@ const LoginPage = () => {
     if (loginCode === 1) {
       handleLoginSuccess();
     } else if (loginCode === 2)
-      toast.error("Invalid email or password", { autoClose: 2000 });
+      toast.error("Invalid username or password", { autoClose: 2000 });
     dispatch(resetCodes());
   }, [dispatch, loginCode, navigate]);
 
@@ -67,12 +66,24 @@ const LoginPage = () => {
                   id="username"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("username", {
-                    required: "username is required",
+                    required: "Username is required",
+                    minLength: {
+                      value: 5,
+                      message: "Username must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: "Username must be at most 15 characters",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: "Username must contain only letters and numbers",
+                    },
                   })}
                 />
                 {errors?.username && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter username.
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -92,19 +103,33 @@ const LoginPage = () => {
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
                   {...register("password", {
                     required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+                    },
                   })}
                 />
                 {errors?.password && (
                   <p className="text-red-400 text-xs mt-1">
-                    Please enter password.
+                    {errors.password.message}
                   </p>
                 )}
               </div>
-              <div className="flex justify-center">
-                <p className="text-sm">
+              <div className="flex justify-center flex-col items-center">
+                <p className="text-sm pb-3">
                   Don&apos;t have an account yet?{" "}
                   <NavLink to="/register" className="text-blue-500">
                     Register here
+                  </NavLink>
+                </p>
+                <p className="text-sm">
+                  Do not remember password?{" "}
+                  <NavLink to="/forgot-password" className="text-blue-500">
+                    Click here
                   </NavLink>
                 </p>
               </div>

@@ -1,11 +1,10 @@
-import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { Movies } from "../../Data/MovieData.js";
 import FlexMoviesItems from "../FlexMovieItems/FlexMovieItems.jsx";
-import "./Banner.scss";
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import "./Banner.scss";
 
 const Banner = () => {
   return (

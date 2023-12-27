@@ -1,4 +1,3 @@
-import React from "react";
 import { moviePropTypes } from "../../PropTypes/MoviePropTypes.js";
 import { SlCalender } from "react-icons/sl";
 import { TbClockHour9 } from "react-icons/tb";

@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import Layout from "../../../Layout/Layout.jsx";
+import { apiForgotPassword } from "../../../utils/api.js";
+import { toast } from "react-toastify";
+import './style.scss'
 
 const ForgotPage = () => {
   const {
@@ -14,14 +17,17 @@ const ForgotPage = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    alert(`Forgot password logic for email: ${data.email}`);
-    // Add your forgot password logic here, such as sending a reset email
+  const onSubmit = async (data) => {
+    const respone = await apiForgotPassword(data.email);
+    if (respone)
+      toast.success("Please check your email", { autoClose: 1500 });
+    else
+      toast.error("Something went wrong", { autoClose: 2000 });
   };
 
   return (
     <Layout>
-      <div className="container mx-auto px-2 mb-28 mt-6">
+      <div className="container mx-auto px-2 mb-36 mt-32 forgot-password-container">
         <div className="bg-dry px-10 pt-2 pb-10 mx-auto border rounded-md md:w-1/2">
           <div className="mx-auto mt-8">
             <h1 className="text-3xl font-bold mb-4 text-center">Forgot Password</h1>
@@ -36,10 +42,18 @@ const ForgotPage = () => {
                   id="email"
                   autoComplete="off"
                   className="w-full mt-2 px-3 py-2 border rounded-md text-black"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
                 {errors?.email && (
-                  <p className="text-red-400 text-xs mt-1">Please enter your email address.</p>
+                  <p className="text-red-400 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
