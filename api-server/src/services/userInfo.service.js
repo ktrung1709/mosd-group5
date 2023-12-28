@@ -17,11 +17,11 @@ exports.getRecent = async (userId) => {
 };
 
 exports.getListInfo = async (userId, watchListName) => {
-    return await User.findById(userId).select('watch_list').where('watch_list.name').equals(watchListName);
+    return await User.findById(userId).select('watch_list').where('watch_list.list_name').equals(watchListName);
 };
 
 exports.getLists = async (userId) => {
-    return await User.findById(userId).select("watch_list.name");
+    return await User.findById(userId).select("watch_list.list_name");
 }
 
 exports.addToFavorite = async (userId, movieId) => {
