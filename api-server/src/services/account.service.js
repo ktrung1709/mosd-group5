@@ -1,7 +1,7 @@
 let User = require("../models/user.model")
 
 exports.getUserByUsername = async username => {
-    return User.findOne({username: username});
+    return User.findOne({ username: username });
 };
 
 exports.saveUser = (user) => {
@@ -10,5 +10,9 @@ exports.saveUser = (user) => {
 };
 
 exports.getUserByEmail = async (email) => {
-    return User.findOne({email: email});
+    return User.findOne({ email: email });
+};
+
+exports.getUserByUsernameAndEmail = async (username, email) => {
+    return User.findOne({ username: username, email: email });
 };

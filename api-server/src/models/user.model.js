@@ -22,9 +22,12 @@ const userSchema = new mongoose.Schema({
       type: Boolean,
       required: true
     },
-    watch_list: [{type: ObjectId, ref:'movid_id'}],
-    favorite: [{type: ObjectId, ref:'movid_id'}],
-    recent_view: [{type: ObjectId, ref:'movid_id'}],
+    watch_list:{
+        list_name : {type: String},
+        movies: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
+    },
+    favorite: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
+    recent_view: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
 });
 const User = mongoose.model('users', userSchema);
 
