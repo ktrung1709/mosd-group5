@@ -7,7 +7,6 @@ const accountService = require('../services/account.service')
 const accountConfig = require('../configs/account.config')
 const jwt = require('jsonwebtoken')
 const { SERVER, SECRET_KEY } = require('../configs/main.config')
-const jwt = require("jsonwebtoken");
 
 
 exports.checkIfUsernameExists = async (username, errorMsg) => {
@@ -86,7 +85,8 @@ exports.sendActivationEmail = async (username, email) => {
 }
 
 exports.verifyToken = async (req, res, next) => {
-    const token = req.header('Authorization');
+    let token = req.header('Authorization');
+    token = token.replace('Bearer ', '');
 
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
