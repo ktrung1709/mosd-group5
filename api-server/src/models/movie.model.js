@@ -1,18 +1,16 @@
-// models/Movie.js
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const { ObjectId } = require('bson');
+const {ObjectId} = require('bson');
 
 const movieSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
-    genre: [{
+    categories: [{
         type: String,
     }],
-    releaseDate: {
-        type: Date,
+    year: {
+        type: Number,
         required: true
     },
     description: {
@@ -25,6 +23,22 @@ const movieSchema = new mongoose.Schema({
         type: String,
     },
     comments: [{type: String}],
+    image: {
+        type: String,
+        required: false,
+    },
+    director: {
+        type: Array,
+        required: true,
+    },
+    cast: {
+        type: Array,
+        required: true,
+    },
+    duration: {
+        type: Number,
+        required: true,
+    },
 });
 const Movie = mongoose.model('movies', movieSchema);
 

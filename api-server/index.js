@@ -1,12 +1,13 @@
 const express = require('express');
 const {SERVER} = require('./src/configs/main.config');
 const db = require('./src/configs/db.config');
+const {verifyToken} = require('./src/utils/account.util');
 
 const authRoute = require('./src/routes/authentication.route');
 const userInfoRoute = require('./src/routes/userInfo.route');
 const accountRoute = require('./src/routes/account.route');
+const movieRoute = require('./src/routes/movie.route');
 
-const {verifyToken} = require('./src/utils/account.util');
 
 const app = express();
 
@@ -23,8 +24,9 @@ app.get('/ping-auth', verifyToken, (req, res) => {
 
 app.use('/auth', authRoute);
 app.use('/account', accountRoute);
+app.use('/movie', movieRoute);
 
-app.use('/user', verifyToken ,userInfoRoute);
+app.use('/user', verifyToken, userInfoRoute);
 
 const port = SERVER.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
