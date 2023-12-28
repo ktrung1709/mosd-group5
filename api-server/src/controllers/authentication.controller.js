@@ -36,7 +36,6 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    console.log(`EMAIL: ${username}`)
     await accountService.getUserByUsername(username).then(user => {
         if(!user){
             res.status(400).json({ message: 'Invalid email or password' });
