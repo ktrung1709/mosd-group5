@@ -11,7 +11,9 @@ const {
     ENCRYPTION_KEY,
     ENCRYPTION_IV,
     DB_STRING,
-    DB_NAME
+    DB_NAME,
+    EMAIL_FROM,
+    EMAIL_PASSWORD
 } = process.env
 
 module.exports = {
@@ -33,5 +35,9 @@ module.exports = {
     DB: {
         CON_STRING: DB_STRING,
         NAME: DB_NAME
+    },
+    MAIL: {
+        FROM: EMAIL_FROM,
+        PASSWORD: EMAIL_PASSWORD
     }
 }

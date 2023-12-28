@@ -5,11 +5,11 @@ exports.getAllMovie = async () => {
 }
 
 exports.searchMovieByTitlePartial = async (category) => {
-    return Movie.find({name: {$regex: category}});
+    return Movie.find({ name: { $regex: category } });
 }
 
 exports.searchMovieByGenre = async (category) => {
-    return Movie.find({categories: category});
+    return Movie.find({ categories: category });
 }
 
 exports.searchMovieByAttributesPartial = async (options) => {

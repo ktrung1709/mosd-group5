@@ -85,7 +85,8 @@ exports.sendActivationEmail = async (username, email) => {
 }
 
 exports.verifyToken = async (req, res, next) => {
-    const token = req.header('Authorization');
+    let token = req.header('Authorization');
+    token = token.replace('Bearer ', '');
 
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
