@@ -1,6 +1,6 @@
 import axios from "axios";
-import { base_url } from "./baseUrl";
-import { setItemWithExpiration } from "./localStorage";
+import { base_url } from "../baseUrl";
+import { setItemWithExpiration } from "../localStorage";
 
 export const apiForgotPassword = async (email) => {
     const res = await axios.post(`${base_url}auth/forgot-password`, { email });

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../../Layout/Layout.jsx";
-import { apiResetPassword } from "../../../utils/api.js";
+import { apiResetPassword } from "../../../utils/api/auth";
 import { getItemWithExpiration } from "../../../utils/localStorage.js";
 import { toast } from "react-toastify";
 
