@@ -2,7 +2,7 @@ const movieService = require('../services/movie.service');
 
 exports.getMovie = async (req, res) => {
     let name = req.query.name ?? null;
-    let category = req.query.category?? null;
+    let category = req.query.category ?? null;
     let year = req.query.year ?? null;
     // {
     //     title: {$regex: title},
@@ -14,10 +14,10 @@ exports.getMovie = async (req, res) => {
     // }
     let options = {};
     if (name) {
-        options.name = {$regex: name, $options: 'i'};
+        options.name = { $regex: name, $options: 'i' };
     }
     if (category) {
-        options.categories = {$in: RegExp(`^${category}$`, 'i')};
+        options.categories = { $in: RegExp(`^${category}$`, 'i') };
     }
     if (year) {
         options.year = year;
