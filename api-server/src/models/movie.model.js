@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const {ObjectId} = require('bson');
 
 const movieSchema = new mongoose.Schema({
     name: {
