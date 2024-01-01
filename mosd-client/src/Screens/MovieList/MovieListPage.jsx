@@ -31,14 +31,24 @@ const MovieListPage = () => {
             setFilterParam(movieNameOrFilter?.filter)
     }, [movieNameOrFilter])
 
-    console.log("nameMovieParam: ", nameMovieParam)
-
     useEffect(() => {
-        if (!nameMovieParam && !filterParam || nameMovieParam === "")
+        if (!nameMovieParam && !filterParam || nameMovieParam === null)
             dispatch(getMovies())
         if (nameMovieParam)
             dispatch(getMovies({ name: nameMovieParam }))
+        if (filterParam) {
+            const params = filterParam.split("&");
+            const queryParams = {};
+            params.forEach(param => {
+                let [key, value] = param.split("=");
+                if (key === "year" && value === "Before 2012")
+                    key = "b2012"
+                queryParams[key] = value;
+            });
+            dispatch(getMovies(queryParams));
+        }
     }, [dispatch, filterParam, nameMovieParam])
+
 
     return (
         <Layout>

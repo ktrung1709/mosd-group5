@@ -7,6 +7,7 @@ const authRoute = require('./src/routes/authentication.route');
 const userInfoRoute = require('./src/routes/userInfo.route');
 const accountRoute = require('./src/routes/account.route');
 const movieRoute = require('./src/routes/movie.route');
+const castRoute = require('./src/routes/cast.route');
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.get('/ping-auth', verifyToken, (req, res) => {
 app.use('/auth', authRoute);
 app.use('/account', accountRoute);
 app.use('/movie', movieRoute);
+app.use('/cast', castRoute);
 
 app.use('/user', verifyToken, userInfoRoute);
 

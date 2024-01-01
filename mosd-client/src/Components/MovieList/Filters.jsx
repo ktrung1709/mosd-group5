@@ -2,9 +2,7 @@ import { Listbox, Transition } from "@headlessui/react"
 import { Fragment, useEffect, useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { HiSelector } from "react-icons/hi"
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom"
-import { getMovies } from "../../features/movies/moviesSlice";
+import { useNavigate, useParams } from "react-router-dom"
 import './style.scss'
 const kindData = [
     {
@@ -63,7 +61,6 @@ const languageData = [
         idDisabled: true,
     },
     { title: "All" },
-    { title: "American" },
     { title: "Korean" },
     { title: "English" },
     { title: "Spanish" },
@@ -100,7 +97,7 @@ const sortData = [
 
 
 function Filters() {
-    const dispatch = useDispatch()
+    const filterParamsUrl = useParams()
     const navigate = useNavigate()
 
     const [kind, setKind] = useState(kindData[0]);
@@ -111,15 +108,44 @@ function Filters() {
     const [sort, setSort] = useState(sortData[0]);
     const [filterParam, setFilterParam] = useState("");
 
+    useEffect(() => {
+        if (filterParamsUrl?.filter) {
+            const params = filterParamsUrl?.filter.split("&");
+            const queryParams = {};
+            params.forEach(param => {
+                const [key, value] = param.split("=");
+                queryParams[key] = value;
+                if (key === "kind")
+                    setKind({ title: value })
+                else if (key === "year")
+                    setYear({ title: value })
+                else if (key === "category")
+                    setCategory({ title: value })
+                else if (key === "language")
+                    setLanguage({ title: value })
+                else if (key === "time")
+                    setTime({ title: value })
+            });
+        }
+    }, [filterParamsUrl])
+
     const handleFilterChange = (selected) => {
         const updateParam = (paramName, paramValue) => {
             setFilterParam((prevFilterParam) => {
+                if (paramValue === "All") {
+                    if (prevFilterParam.split('=').length === 2) {
+                        prevFilterParam = ""
+                        return prevFilterParam
+                    }
+                    return prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
+                }
                 let updatedFilterParam = prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
                 updatedFilterParam += (updatedFilterParam === "" ? "" : "&") + `${paramName}=${paramValue}`;
 
                 return updatedFilterParam;
             });
         };
+
         if (kindData.includes(selected)) {
             setKind(selected);
             updateParam("kind", selected?.title);
@@ -138,12 +164,6 @@ function Filters() {
         }
     };
 
-    // useEffect(() => {
-    //     if (category.title !== "All" || !category.title.includes('-'))
-    //         dispatch(getMovies({ category: category.title }))
-    //     if (category.title === "All")
-    //         dispatch(getMovies())
-    // }, [category.title, dispatch])
 
     useEffect(() => {
         if (filterParam?.length > 0) {
@@ -153,6 +173,8 @@ function Filters() {
             }
             navigate(`/movies/filter/${filterParams ? filterParams : filterParam}`)
         }
+        else
+            navigate(`/movies/filter`)
     }, [filterParam, navigate])
 
     useEffect(() => {

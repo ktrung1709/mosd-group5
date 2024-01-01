@@ -6,7 +6,7 @@ exports.getMovie = async (req, res) => {
     let name = req.query.name ?? null;
     let category = req.query.category ?? null;
     let year = req.query.year ?? null;
-    let lang = req.query.lang ?? null;
+    let lang = req.query.language ?? null;
     let before2012 = req.query.b2012 ?? null;
 
     let limit = req.query.limit ?? 10;

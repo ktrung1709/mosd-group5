@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Title from "../Title/Title.jsx";
 import { Movies } from "../../Data/MovieData.js";
 import { PiMedalBold } from "react-icons/pi";

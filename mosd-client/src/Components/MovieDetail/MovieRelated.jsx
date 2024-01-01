@@ -3,7 +3,6 @@ import { FaPhotoFilm } from "react-icons/fa6";
 import MovieItem from "../MovieItem/MovieItem.jsx";
 
 const MovieRelated = (movies) => {
-  console.log("movies: ", movies)
   return (
     <div className="my-16">
       <Title title={"Related Movies"} Icon={FaPhotoFilm} />

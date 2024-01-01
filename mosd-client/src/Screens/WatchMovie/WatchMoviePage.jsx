@@ -3,8 +3,8 @@ import Layout from '../../Layout/Layout'
 import { Link, useParams } from 'react-router-dom'
 import { FaArrowLeft, FaCloudDownloadAlt, FaHeart, FaPlay } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
-import "./style.scss"
 import { getMovies } from '../../features/movies/moviesSlice'
+import "./style.scss"
 
 function WatchMoviePage() {
     const dispatch = useDispatch()
@@ -15,8 +15,6 @@ function WatchMoviePage() {
     useEffect(() => {
         dispatch(getMovies({ name: nameMovie.name }))
     }, [dispatch, nameMovie])
-
-    console.log("movie: ", movie)
 
     return (
         <Layout>
