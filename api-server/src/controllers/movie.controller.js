@@ -27,6 +27,12 @@ exports.getMovie = async (req, res) => {
         options.year = {$lt: 2012};
     }
 
+    if (limit < 1 || limit > 100) {
+        limit = 10;
+    }
+    if (page < 1) {
+        page = 1;
+    }
     let movies = await movieService.searchMovieByAttributesPartial(options, limit, page);
     res.json(movies);
 }
