@@ -9,9 +9,11 @@ import { useParams } from "react-router-dom";
 
 export const maxMoviesPerPage = 8
 const MovieListPage = () => {
-    const movieName = useParams()
+    const movieNameOrFilter = useParams()
     const dispatch = useDispatch()
     const [page, setPage] = useState(maxMoviesPerPage)
+    const [nameMovieParam, setNameMovieParam] = useState("")
+    const [filterParam, setFilterParam] = useState("")
     const movies = useSelector(state => state.movies.movies)
 
     const handleLoadingMore = () => {
@@ -23,11 +25,20 @@ const MovieListPage = () => {
     }, []);
 
     useEffect(() => {
-        if (!movieName || movieName === "")
+        if (movieNameOrFilter?.name)
+            setNameMovieParam(movieNameOrFilter.name)
+        else
+            setFilterParam(movieNameOrFilter?.filter)
+    }, [movieNameOrFilter])
+
+    console.log("nameMovieParam: ", nameMovieParam)
+
+    useEffect(() => {
+        if (!nameMovieParam && !filterParam || nameMovieParam === "")
             dispatch(getMovies())
-        if (movieName)
-            dispatch(getMovies({ name: movieName.name }))
-    }, [movieName, dispatch])
+        if (nameMovieParam)
+            dispatch(getMovies({ name: nameMovieParam }))
+    }, [dispatch, filterParam, nameMovieParam])
 
     return (
         <Layout>

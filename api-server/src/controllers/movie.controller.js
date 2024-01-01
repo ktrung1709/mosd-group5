@@ -23,7 +23,6 @@ exports.getMovie = async (req, res) => {
         options.year = year;
     }
 
-    console.log("options: ", options)
     let movies = await movieService.searchMovieByAttributesPartial(options);
     res.json(movies);
 }
