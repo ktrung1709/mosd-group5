@@ -10,6 +10,18 @@ const getMovies = async (movieData) => {
         return res.data
 }
 
+const getTopRatedMovies = async () => {
+    const res = await axios.get(`${base_url}movie/getTopRate`);
+    if (res.data)
+        return res.data
+}
+
+const getLatestMovies = async () => {
+    const res = await axios.get(`${base_url}movie/getLatest`);
+    if (res.data)
+        return res.data
+}
+
 export const moviesService = {
-    getMovies
+    getMovies, getTopRatedMovies, getLatestMovies
 };
