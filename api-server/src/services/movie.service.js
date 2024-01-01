@@ -12,6 +12,6 @@ exports.searchMovieByGenre = async (category) => {
     return Movie.find({categories: category});
 }
 
-exports.searchMovieByAttributesPartial = async (options) => {
-    return Movie.find(options);
+exports.searchMovieByAttributesPartial = async (options, limit, page) => {
+    return Movie.find(options).limit(limit).skip((page - 1) * limit);
 }
