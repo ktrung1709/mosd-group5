@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "../Title/Title.jsx";
-import { Movies } from "../../Data/MovieData.js";
 import { PiMedalBold } from "react-icons/pi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
