@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect , useState } from "react";
 import Title from "../Title/Title.jsx";
 import { Movies } from "../../Data/MovieData.js";
 import { PiMedalBold } from "react-icons/pi";
@@ -9,9 +9,21 @@ import { Link } from "react-router-dom";
 import Star from "../StarRate/Star.jsx";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 import "./TopRated.scss";
+import { moviesService } from "../../features/movies/moviesService.js";
+
 const TopRated = () => {
   const [nextEl, setNextEl] = useState(null);
   const [prevEl, setPrevEl] = useState(null);
+  const [movies, setMovies] = useState();
+    useEffect(() => {
+        const fetchTopMovie = async () => {
+            const res = await moviesService.getTopRatedMovies()
+            console.log("res: ", res)
+            if (res)
+                setMovies(res)
+        }
+        fetchTopMovie()
+    }, [])
   const classNames =
     "hover:bg-star transitions text-sm rounded w-8 h-8 flex-colo bg-subMain text-white";
 
@@ -56,12 +68,12 @@ const TopRated = () => {
             },
           }}
         >
-          {Movies.map((movie, index) => (
+          {movies?.map((movie, index) => (
             <SwiperSlide key={index}>
               <div className="p-4 h-rate hovered border border-border bg-dry rounded-lg overflow-hidden cursor-pointer">
                 <img
-                  src={movie.image}
-                  alt={movie.name}
+                  src={movie?.image}
+                  alt={movie?.name}
                   className="w-full h-full object-cover rounded-lg"
                 />
                 <div className="px-4 hoveres gap-6 text-center absolute bg-black bg-opacity-70 top-0 left-0 right-0 bottom-0">
@@ -69,13 +81,13 @@ const TopRated = () => {
                     <FaHeart />
                   </button>
                   <Link
-                    to={`/movie/${movie.name}`}
+                    to={`/movie/${movie?.name}`}
                     className="font-semibold text-xl trancuted line-clamp-2"
                   >
-                    {movie.name}
+                    {movie?.name}
                   </Link>
                   <div className="text-star">
-                    <Star value={movie.rate} />
+                    <Star value={movie?.rate} />
                   </div>
                 </div>
               </div>
