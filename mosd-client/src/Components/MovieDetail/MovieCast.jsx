@@ -4,7 +4,8 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Casts } from "../../Data/CastData.js";
 
-const MovieCast = () => {
+const MovieCast = (cast) => {
+  console.log("cast: ", cast)
   return (
     <div className="my-12">
       <Title title={"Casts"} Icon={BsFillPeopleFill} />

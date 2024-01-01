@@ -17,11 +17,13 @@ exports.getMovie = async (req, res) => {
         options.name = { $regex: name, $options: 'i' };
     }
     if (category) {
-        options.categories = { $in: RegExp(`^${category}$`, 'i') };
+        options.categories = { $in: [new RegExp(`^${category}$`, 'i')] };
     }
     if (year) {
         options.year = year;
     }
+
+    console.log("options: ", options)
     let movies = await movieService.searchMovieByAttributesPartial(options);
     res.json(movies);
 }
