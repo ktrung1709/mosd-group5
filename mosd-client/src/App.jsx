@@ -16,6 +16,7 @@ import FavoriteMovies from "./Screens/Dashboard/FavoriteMovies/FavoriteMovies.js
 import Dashboard from "./Screens/Dashboard/Admin/DashBoard/DashBoard.jsx";
 import Users from "./Screens/Dashboard/Admin/Users/Users.jsx";
 import MovieListPage from "./Screens/MovieList/MovieListPage.jsx";
+import WatchMoviePage from "./Screens/WatchMovie/WatchMoviePage.jsx";
 
 const App = () => {
   return (
@@ -28,7 +29,10 @@ const App = () => {
       <Route path="/change-password" element={<PasswordPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
       <Route path="/movies" element={<MovieListPage />} />
+      <Route path="/movies/search/:name" element={<MovieListPage />} />
+      <Route path="/movies/filter/:filter" element={<MovieListPage />} />
       <Route path="/movie/:name" element={<MovieDetailPage />} />
+      <Route path="/movie/watch/:name" element={<WatchMoviePage />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/addmovie" element={<AddMovie />} />
       <Route path="/categories" element={<Categories />} />

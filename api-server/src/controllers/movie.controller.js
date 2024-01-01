@@ -17,10 +17,10 @@ exports.getMovie = async (req, res) => {
 
     let options = {};
     if (name) {
-        options.name = {$regex: name, $options: 'i'};
+        options.name = { $regex: name, $options: 'i' };
     }
     if (category) {
-        options.categories = {$in: RegExp(`^${category}$`, 'i')};
+        options.categories = { $in: [new RegExp(`^${category}$`, 'i')] };
     }
     if (year) {
         options.year = year;
@@ -29,7 +29,7 @@ exports.getMovie = async (req, res) => {
         options.language = lang;
     }
     if (before2012) {
-        options.year = {$lt: 2012};
+        options.year = { $lt: 2012 };
     }
 
     if (limit < 1 || limit > 100) {
