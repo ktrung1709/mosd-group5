@@ -87,6 +87,7 @@ const MovieRates = ({ movie }) => {
                             <div className="col-span-2 bg-main hidden md:block">
                                 <img 
                                     src={user?.image} 
+                                    alt={user?.fullname} 
                                     className="w-full h-24 rounded-lg object-cover" 
                                 />
                             </div>
