@@ -6,7 +6,7 @@ import './style.scss'
 const MovieItem = ({ movie }) => {
   return (
     <div>
-      <div className="border border-border p-1 h-5/6 hover:scale-95 transitions relative rounded overflow-hidden">
+      <div className="border border-border p-1 h-full hover:scale-95 transitions relative rounded overflow-hidden">
         <Link to={`/movie/${movie?.name}`} className="w-full">
           <img
             src={movie?.thumbnail}

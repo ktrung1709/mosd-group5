@@ -54,14 +54,14 @@ const TopRated = () => {
               slidesPerView: 1,
             },
             912: {
-              slidesPerView: 2,
+              slidesPerView: 4,
             },
             // when window width is >= 992px
             992: {
-              slidesPerView: 3,
+              slidesPerView: 4,
             },
             1024: {
-              slidesPerView: 3,
+              slidesPerView: 4,
             },
           }}
         >
