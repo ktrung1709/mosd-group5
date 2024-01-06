@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import { FaArrowLeft, FaCloudDownloadAlt, FaHeart, FaPlay } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
 import { getMovies } from '../../features/movies/moviesSlice'
+import { toast } from "react-toastify";
+import { userService } from '../../features/user/userService';
 import "./style.scss"
 
 function WatchMoviePage() {
@@ -16,6 +18,13 @@ function WatchMoviePage() {
         dispatch(getMovies({ name: nameMovie.name }))
     }, [dispatch, nameMovie])
 
+    const handleAddToFavorite = async (movieId) => {
+        const res = await userService.addToFavorite(movieId);
+        if (res.message)
+            toast.success("Add to favorite successfully", { autoClose: 1500 });
+    }
+
+
     return (
         <Layout>
             <div className='container mx-auto bg-dry p-6 mb-12'>
@@ -26,7 +35,7 @@ function WatchMoviePage() {
                     </Link>
                     <div className="flex-btn sm:w-auto w-full gap-5">
                         <button className="bg-white hover:text-subMain transitions bg-opacity-30 text-white rounded px-4 py-3 text-sm">
-                            <FaHeart />
+                            <FaHeart onClick={() => handleAddToFavorite(movie._id)} />
                         </button>
                         <button className="bg-subMain flex-rows gap-2 hover:text-main transitions text-white rounded px-8 font-medium py-3 text-sm">
                             <FaCloudDownloadAlt />

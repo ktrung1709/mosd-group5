@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { moviesService } from "../../features/movies/moviesService.js";
+import { userService } from "../../features/user/userService.js";
+import { toast } from "react-toastify";
 import "./Banner.scss";
 
 const Banner = () => {
@@ -32,6 +34,14 @@ const Banner = () => {
     }
     fetchFirstMovie()
   }, [])
+
+  const handleAddToFavorite = async (movieId) => {
+    const res = await userService.addToFavorite(movieId);
+    if (res.message === "Added to favorite")
+      toast.success("Add to favorite successfully", { autoClose: 1500 });
+    else
+      toast.error("Favortie movie already", { autoClose: 1500 });
+  }
 
   return (
     <div className="relative w-full">
@@ -66,7 +76,7 @@ const Banner = () => {
                   Watch
                 </Link>
                 <button className="bg-white hover:text-subMain transitions text-white px-4 py-4 rounded text-sm bg-opacity-30">
-                  <FaHeart />
+                  <FaHeart onClick={() => handleAddToFavorite(movie._id)} />
                 </button>
               </div>
             </div>
