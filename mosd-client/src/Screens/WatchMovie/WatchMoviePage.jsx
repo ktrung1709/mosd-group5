@@ -24,12 +24,17 @@ function WatchMoviePage() {
             toast.success("Add to favorite successfully", { autoClose: 1500 });
     }
 
+    const handleClickPlay = async () => {
+        setPlay(true)
+        const res = await userService.addToRecent(movie?._id);
+        console.log(res)
+    }
 
     return (
         <Layout>
             <div className='container mx-auto bg-dry p-6 mb-12'>
                 <div className="flex-btn flex-wrap mb-6 gap-2 bg-main rounded border border-gray-800 p-6">
-                    <Link className="md:text-xl text-sm flex gap-3 items-center font-bold text-dryGray" to={`movie/${movie?.name}`}>
+                    <Link className="md:text-xl text-sm flex gap-3 items-center font-bold text-dryGray" to={`/movie/${movie?.name}`}>
                         <FaArrowLeft />
                         {movie?.name}
                     </Link>
@@ -65,7 +70,7 @@ function WatchMoviePage() {
                     ) : <div className="w-full h-screen rounded-lg overflow-hidden relative">
                         <div className="absolute top-0 left-0 bottom-0 right-0 bg-main bg-opacity-30 flex-colo">
                             <button className="bg-white text-subMain flex-colo border border-subMain rounded-full w-20 h-20 font-medium text-xl"
-                                onClick={() => setPlay(true)}>
+                                onClick={handleClickPlay}>
                                 <FaPlay />
                             </button>
                         </div>

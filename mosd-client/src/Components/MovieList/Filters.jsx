@@ -9,7 +9,7 @@ const kindData = [
         title: "- Kind -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Movie" },
     { title: "Series" }
 ]
@@ -19,7 +19,7 @@ const categoryData = [
         title: "- Category -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Action" },
     { title: "Drama" },
     { title: "Romantic" },
@@ -39,7 +39,7 @@ const yearData = [
         title: "- Year -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "2023" },
     { title: "2022" },
     { title: "2021" },
@@ -60,13 +60,13 @@ const languageData = [
         title: "- Language -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Korean" },
     { title: "English" },
     { title: "Spanish" },
     { title: "Chinese" },
     { title: "Janapese" },
-    { title: "French" },
+    { title: "Vietnamese" },
     { title: "Other" },
 ]
 
@@ -75,7 +75,7 @@ const timeData = [
         title: "- Time -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "0 - 30 mins" },
     { title: "30 mins - 60 mins" },
     { title: "60 mins - 90 mins" },
@@ -89,7 +89,7 @@ const sortData = [
         title: "- Sort by -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Time Update" },
     { title: "Time Release" },
     { title: "Rate" },
@@ -132,13 +132,6 @@ function Filters() {
     const handleFilterChange = (selected) => {
         const updateParam = (paramName, paramValue) => {
             setFilterParam((prevFilterParam) => {
-                if (paramValue === "All") {
-                    if (prevFilterParam.split('=').length === 2) {
-                        prevFilterParam = ""
-                        return prevFilterParam
-                    }
-                    return prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
-                }
                 let updatedFilterParam = prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
                 updatedFilterParam += (updatedFilterParam === "" ? "" : "&") + `${paramName}=${paramValue}`;
 
@@ -167,14 +160,8 @@ function Filters() {
 
     useEffect(() => {
         if (filterParam?.length > 0) {
-            let filterParams = ""
-            if (filterParam[0] === "&") {
-                filterParams = filterParam.slice(1)
-            }
-            navigate(`/movies/filter/${filterParams ? filterParams : filterParam}`)
+            navigate(`/movies/filter/${filterParam}`)
         }
-        else
-            navigate(`/movies/filter`)
     }, [filterParam, navigate])
 
     useEffect(() => {
