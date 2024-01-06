@@ -123,29 +123,23 @@ exports.addToRecent = async (req, res) => {
 }
 
 exports.addToList = async (req, res) => {
-    let userId = req.user._id;
-    let movieId = req.params.id;
-    let listName = req.params.name;
-    await movieService.getMovieInfo(movieId).then(movie => {
-        if (!movie) {
-            return res.status(200).json({
-                message: "Not found movie",
-            })
+    try {
+        const userId = req.user._id;
+        const movieId = req.params.id;
+        const listName = req.params.name;
+
+        const result = await userInfoService.addToList(userId, movieId, listName);
+
+        if (result.success) {
+            res.status(200).json({ message: "Added to list" });
+        } else {
+            res.status(200).json({ message: result.message });
         }
-    });
-    await userInfoService.addToList(userId, movieId, listName).then(user => {
-        if (!user) {
-            return res.status(200).json({
-                message: "Not found user",
-            })
-        }
-        return res.status(200).json({ message: "Added to list" });
-    }).catch(error => {
-        return res.json({
-            message: error,
-        })
-    })
-}
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
 
 exports.createList = async (req, res) => {
     let userId = req.user._id;

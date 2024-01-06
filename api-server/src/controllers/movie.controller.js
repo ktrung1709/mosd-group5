@@ -51,7 +51,7 @@ exports.getMovie = async (req, res) => {
 
 exports.getTopRate = async (req, res) => {
     req.query.top = true;
-    req.query.limit = 6;
+    // req.query.limit = 6;
     this.getMovie(req, res);
 };
 

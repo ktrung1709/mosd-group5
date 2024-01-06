@@ -57,17 +57,32 @@ exports.addToRecent = async (userId, movieId) => {
 }
 
 exports.addToList = async (userId, movieId, listName) => {
-    return await User.updateOne({
-        _id: userId,
-        'watch_list.list_name': listName,
-    },
-        {
-            $addToSet: {
-                'watch_list.$.movie_ids': movieId,
-            },
-        },
-        { new: true });
-}
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return { success: false, message: "User not found" };
+        }
+
+        const list = user.watch_list.find((item) => item.list_name === listName);
+
+        if (!list) {
+            return { success: false, message: "List not found" };
+        }
+
+        if (list.movies.includes(movieId)) {
+            return { message: "Movie already exists in the list" };
+        }
+
+        list.movies.push(movieId);
+        await user.save();
+
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Internal Server Error" };
+    }
+};
 
 exports.createList = async (userId, listName) => {
     return await User.findByIdAndUpdate(userId, { $push: { watch_list: { list_name: listName } } }, { new: true });
