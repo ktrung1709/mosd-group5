@@ -2,7 +2,7 @@ const express = require('express');
 const { SERVER } = require('./src/configs/main.config');
 const db = require('./src/configs/db.config');
 const { verifyToken } = require('./src/utils/account.util');
-
+const cors = require('cors');
 const authRoute = require('./src/routes/authentication.route');
 const userInfoRoute = require('./src/routes/userInfo.route');
 const accountRoute = require('./src/routes/account.route');
@@ -21,6 +21,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173',
+}));
 
 app.get('/ping', (req, res) => {
     res.json({ 'status': 'ok' });

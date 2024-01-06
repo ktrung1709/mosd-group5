@@ -48,7 +48,6 @@ exports.signin = async (req, res) => {
             res.status(400).json({ message: 'Invalid email or password' });
         } else {
             bcrypt.compare(password, user.password).then(result => {
-                console.log(user)
                 if (result) {
                     const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '2 days' });
                     res.status(200).json({

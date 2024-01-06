@@ -3,7 +3,6 @@ const castService = require('../services/cast.service');
 exports.getCastByFullName = async (req, res) => {
     try {
         const fullName = req.body.fullName;
-        console.log("fullName: ", fullName)
         const cast = await castService.getCastByFullName(fullName);
 
         if (!cast) {

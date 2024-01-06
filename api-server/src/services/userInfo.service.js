@@ -25,8 +25,20 @@ exports.getLists = async (userId) => {
 }
 
 exports.addToFavorite = async (userId, movieId) => {
-    return await User.findByIdAndUpdate(userId, { $push: { favorite: movieId } }, { new: true });
-}
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    if (user.favorite.includes(movieId)) {
+        throw new Error("Movie exist");
+    }
+
+    user.favorite.push(movieId);
+    const updatedUser = await user.save();
+    return updatedUser;
+};
 
 exports.addToRecent = async (userId, movieId) => {
     return await User.findByIdAndUpdate(userId, { $push: { recent_view: movieId } }, { new: true });
@@ -36,12 +48,12 @@ exports.addToList = async (userId, movieId, listName) => {
     return await User.updateOne({
         _id: userId,
         'watch_list.list_name': listName,
-        },
+    },
         {
             $addToSet: {
                 'watch_list.$.movie_ids': movieId,
             },
-        }, 
+        },
         { new: true });
 }
 
@@ -57,12 +69,12 @@ exports.deleteFromList = async (userId, movieId, listName) => {
     return await User.updateOne({
         _id: userId,
         'watch_list.list_name': listName,
-      },
-      {
-        $pull: {
-          'watch_list.$.movie_ids': movieId,
-        },
-      });
+    },
+        {
+            $pull: {
+                'watch_list.$.movie_ids': movieId,
+            },
+        });
 }
 
 exports.deleteFromFavorite = async (userId, movieId) => {
