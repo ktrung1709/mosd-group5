@@ -41,7 +41,19 @@ exports.addToFavorite = async (userId, movieId) => {
 };
 
 exports.addToRecent = async (userId, movieId) => {
-    return await User.findByIdAndUpdate(userId, { $push: { recent_view: movieId } }, { new: true });
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    if (user.recent_view.includes(movieId)) {
+        throw new Error("Movie exist");
+    }
+
+    user.recent_view.push(movieId);
+    const updatedUser = await user.save();
+    return updatedUser;
 }
 
 exports.addToList = async (userId, movieId, listName) => {
