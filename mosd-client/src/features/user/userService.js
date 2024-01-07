@@ -3,19 +3,19 @@ import { base_url } from "../../utils/baseUrl";
 import { config } from "../../utils/axiosConfig";
 
 const getInfo = async () => {
-    const res = await axios.get(`${base_url}user/info`, null, config);
+    const res = await axios.get(`${base_url}user/info`, config);
     if (res.data)
         return res.data
 }
 
 const getMovies = async () => {
-    const res = await axios.get(`${base_url}user/movies`, null, config);
+    const res = await axios.get(`${base_url}user/movies`, config);
     if (res.data)
         return res.data
 }
 
 const getFavorite = async () => {
-    const res = await axios.get(`${base_url}user/favorite`, null, config);
+    const res = await axios.get(`${base_url}user/favorite`, config);
     if (res.data)
         return res.data
 }
@@ -28,14 +28,14 @@ const addToFavorite = async (movieId) => {
 }
 
 const deleteFromFavorite = async (movieId) => {
-    const res = await axios.delete(`${base_url}user/favorite/${movieId}`, null, config);
+    const res = await axios.delete(`${base_url}user/favorite/${movieId}`, config);
     if (res.data)
         return res.data
 }
 
 
 const getRecent = async () => {
-    const res = await axios.get(`${base_url}user/recent`, null, config);
+    const res = await axios.get(`${base_url}user/recent`, config);
     if (res.data)
         return res.data
 }
@@ -48,13 +48,13 @@ const addToRecent = async (movieId) => {
 }
 
 const deleteFromRecent = async (movieId) => {
-    const res = await axios.delete(`${base_url}user/recent/${movieId}`, null, config);
+    const res = await axios.delete(`${base_url}user/recent/${movieId}`, config);
     if (res.data)
         return res.data
 }
 
 const getListInfo = async (listName) => {
-    const res = await axios.get(`${base_url}user/list/${listName}`, null, config);
+    const res = await axios.get(`${base_url}user/list/${listName}`, config);
     if (res.data)
         return res.data
 }
@@ -67,7 +67,7 @@ const createList = async (listName) => {
 }
 
 const deleteList = async (listName) => {
-    const res = await axios.delete(`${base_url}user/list/${listName}`, null, config);
+    const res = await axios.delete(`${base_url}user/list/${listName}`, config);
     if (res.data)
         return res.data
 }

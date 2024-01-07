@@ -42,7 +42,7 @@ const MovieDetailPage = () => {
       <div className="container mx-auto min-h-screen px-2 my-6">
         <MovieCast cast={movie[0]?.cast} />
         {/*Rate */}
-        <MovieRates movie={movie[0]} />  
+        <MovieRates movie={movie[0]} />
         <MovieRelated movies={movieRelated} />
       </div>
     </Layout>

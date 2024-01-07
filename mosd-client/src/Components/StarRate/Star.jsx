@@ -99,7 +99,7 @@ const Star = ({ value }) => {
 };
 
 Star.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.any,
 };
 
 export default Star;
