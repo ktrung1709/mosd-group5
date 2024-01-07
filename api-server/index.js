@@ -2,11 +2,13 @@ const express = require('express');
 const {SERVER} = require('./src/configs/main.config');
 const db = require('./src/configs/db.config');
 const {verifyToken} = require('./src/utils/account.util');
+const cors = require('cors');
 
 const authRoute = require('./src/routes/authentication.route');
 const userInfoRoute = require('./src/routes/userInfo.route');
 const accountRoute = require('./src/routes/account.route');
 const movieRoute = require('./src/routes/movie.route');
+const castRoute = require('./src/routes/cast.route');
 const feedbackRoute = require('./src/routes/feedback.route');
 
 const app = express();
@@ -20,6 +22,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173',
+}));
 
 app.get('/ping', (req, res) => {
     res.json({'status': 'ok'});
@@ -32,6 +38,7 @@ app.get('/ping-auth', verifyToken, (req, res) => {
 app.use('/auth', authRoute);
 app.use('/account', accountRoute);
 app.use('/movie', movieRoute);
+app.use('/cast', castRoute);
 app.use('/feedback', verifyToken, feedbackRoute);
 
 app.use('/user', verifyToken, userInfoRoute);

@@ -17,6 +17,8 @@ import Dashboard from "./Screens/Dashboard/Admin/DashBoard/DashBoard.jsx";
 import Users from "./Screens/Dashboard/Admin/Users/Users.jsx";
 import MovieListPage from "./Screens/MovieList/MovieListPage.jsx";
 import WatchMoviePage from "./Screens/WatchMovie/WatchMoviePage.jsx";
+import MovieSearchPage from "./Screens/MovieSearch/MovieSearchPage.jsx";
+import MovieFilterPage from "./Screens/MovieFilter/MovieFilterPage.jsx";
 
 const App = () => {
   return (
@@ -28,8 +30,9 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/change-password" element={<PasswordPage />} />
       <Route path="/forgot-password" element={<ForgotPage />} />
+      <Route path="/movies/search/:name" element={<MovieSearchPage />} />
+      <Route path="/movies/filter/:filter" element={<MovieFilterPage />} />
       <Route path="/movies" element={<MovieListPage />} />
-      <Route path="/movies/search/:name" element={<MovieListPage />} />
       <Route path="/movie/:name" element={<MovieDetailPage />} />
       <Route path="/movie/watch/:name" element={<WatchMoviePage />} />
       <Route path="/dashboard" element={<Dashboard />} />

@@ -2,16 +2,14 @@ import { Listbox, Transition } from "@headlessui/react"
 import { Fragment, useEffect, useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { HiSelector } from "react-icons/hi"
-import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom"
-import { getMovies } from "../../features/movies/moviesSlice";
+import { useNavigate, useParams } from "react-router-dom"
 import './style.scss'
 const kindData = [
     {
         title: "- Kind -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Movie" },
     { title: "Series" }
 ]
@@ -21,7 +19,7 @@ const categoryData = [
         title: "- Category -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Action" },
     { title: "Drama" },
     { title: "Romantic" },
@@ -41,7 +39,7 @@ const yearData = [
         title: "- Year -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "2023" },
     { title: "2022" },
     { title: "2021" },
@@ -62,14 +60,13 @@ const languageData = [
         title: "- Language -",
         idDisabled: true,
     },
-    { title: "All" },
-    { title: "American" },
+
     { title: "Korean" },
     { title: "English" },
     { title: "Spanish" },
     { title: "Chinese" },
     { title: "Janapese" },
-    { title: "French" },
+    { title: "Vietnamese" },
     { title: "Other" },
 ]
 
@@ -78,7 +75,7 @@ const timeData = [
         title: "- Time -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "0 - 30 mins" },
     { title: "30 mins - 60 mins" },
     { title: "60 mins - 90 mins" },
@@ -92,7 +89,7 @@ const sortData = [
         title: "- Sort by -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Time Update" },
     { title: "Time Release" },
     { title: "Rate" },
@@ -100,8 +97,8 @@ const sortData = [
 
 
 function Filters() {
-    const dispatch = useDispatch()
-    // const navigate = useNavigate()
+    const filterParamsUrl = useParams()
+    const navigate = useNavigate()
 
     const [kind, setKind] = useState(kindData[0]);
     const [year, setYear] = useState(yearData[0]);
@@ -109,58 +106,92 @@ function Filters() {
     const [langeuage, setLanguage] = useState(languageData[0]);
     const [time, setTime] = useState(timeData[0]);
     const [sort, setSort] = useState(sortData[0]);
+    const [filterParam, setFilterParam] = useState("");
 
-    const filterParam = ""
-    const handleCategoryChange = (selected) => {
+    useEffect(() => {
+        if (filterParamsUrl?.filter) {
+            const params = filterParamsUrl?.filter.split("&");
+            const queryParams = {};
+            params.forEach(param => {
+                const [key, value] = param.split("=");
+                queryParams[key] = value;
+                if (key === "kind")
+                    setKind({ title: value })
+                else if (key === "year")
+                    setYear({ title: value })
+                else if (key === "category")
+                    setCategory({ title: value })
+                else if (key === "language")
+                    setLanguage({ title: value })
+                else if (key === "time")
+                    setTime({ title: value })
+            });
+        }
+    }, [filterParamsUrl])
+
+    const handleFilterChange = (selected) => {
+        const updateParam = (paramName, paramValue) => {
+            setFilterParam((prevFilterParam) => {
+                let updatedFilterParam = prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
+                updatedFilterParam += (updatedFilterParam === "" ? "" : "&") + `${paramName}=${paramValue}`;
+
+                return updatedFilterParam;
+            });
+        };
+
         if (kindData.includes(selected)) {
-            setKind(selected)
-            filterParam.concat(`kind=${selected?.title}`)
+            setKind(selected);
+            updateParam("kind", selected?.title);
+        } else if (yearData.includes(selected)) {
+            setYear(selected);
+            updateParam("year", selected?.title);
+        } else if (categoryData.includes(selected)) {
+            setCategory(selected);
+            updateParam("category", selected?.title);
+        } else if (languageData.includes(selected)) {
+            setLanguage(selected);
+            updateParam("language", selected?.title);
+        } else if (timeData.includes(selected)) {
+            setTime(selected);
+            updateParam("time", selected?.title);
         }
-        else if ((yearData.includes(selected))) {
-            setYear(selected)
-            filterParam.concat(`year=${selected?.title}`)
-        } else if ((categoryData.includes(selected))) {
-            setCategory(selected)
-            filterParam.concat(`category=${selected?.title}`)
-        }
-        else if ((languageData.includes(selected)))
-            setLanguage(selected)
     };
 
-    useEffect(() => {
-        if (category.title !== "All" || !category.title.includes('-'))
-            dispatch(getMovies({ category: category.title }))
-        if (category.title === "All")
-            dispatch(getMovies())
-    }, [category.title, dispatch])
 
     useEffect(() => {
-        handleCategoryChange()
+        if (filterParam?.length > 0) {
+            navigate(`/movies/filter/${filterParam}`)
+        }
+    }, [filterParam, navigate])
+
+    useEffect(() => {
+        handleFilterChange()
     }, [])
+
     const Filter = [
         {
             value: kind,
-            onChange: handleCategoryChange,
+            onChange: handleFilterChange,
             items: kindData
         },
         {
             value: year,
-            onChange: handleCategoryChange,
+            onChange: handleFilterChange,
             items: yearData
         },
         {
             value: category,
-            onChange: handleCategoryChange,
+            onChange: handleFilterChange,
             items: categoryData
         },
         {
             value: langeuage,
-            onChange: handleCategoryChange,
+            onChange: handleFilterChange,
             items: languageData
         },
         {
             value: time,
-            onChange: setTime,
+            onChange: handleFilterChange,
             items: timeData
         },
         {

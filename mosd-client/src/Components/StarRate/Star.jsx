@@ -49,6 +49,51 @@ const Star = ({ value }) => {
           <FaRegStar />
         )}
       </span>
+      <span>
+        {value >= 6 ? (
+          <FaStar />
+        ) : value >= 5.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
+      <span>
+        {value >= 7 ? (
+          <FaStar />
+        ) : value >= 6.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
+      <span>
+        {value >= 8 ? (
+          <FaStar />
+        ) : value >= 7.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
+      <span>
+        {value >= 9 ? (
+          <FaStar />
+        ) : value >= 8.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
+      <span>
+        {value >= 10 ? (
+          <FaStar />
+        ) : value >= 9.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
     </div>
   );
 };

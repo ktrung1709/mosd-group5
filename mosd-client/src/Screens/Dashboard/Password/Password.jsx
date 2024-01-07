@@ -26,7 +26,6 @@ const PasswordPage = () => {
 
     const onSubmit = async (data) => {
         const respone = await apiResetPassword(window.location.pathname.split('/')[2], token, data.newPassword);
-        console.log("respone: ", respone)
         if (respone) {
             toast.success("Password changed successfully", { autoClose: 1500 });
             setTimeout(() => {

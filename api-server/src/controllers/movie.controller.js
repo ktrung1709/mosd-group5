@@ -1,12 +1,10 @@
 const movieService = require('../services/movie.service');
 
 exports.getMovie = async (req, res) => {
-
-
     let name = req.query.name ?? null;
     let category = req.query.category ?? null;
     let year = req.query.year ?? null;
-    let lang = req.query.lang ?? null;
+    let lang = req.query.language ?? null;
     let before2012 = req.query.b2012 ?? null;
 
     let limit = req.query.limit ?? 10;
@@ -29,7 +27,7 @@ exports.getMovie = async (req, res) => {
         options.language = lang;
     }
     if (before2012) {
-        options.year = {$lt: 2012};
+        options.year = { $lt: 2012 };
     }
 
     if (limit < 1 || limit > 100) {
@@ -53,11 +51,12 @@ exports.getMovie = async (req, res) => {
 
 exports.getTopRate = async (req, res) => {
     req.query.top = true;
-    req.query.limit = 5;
+    // req.query.limit = 6;
     this.getMovie(req, res);
 };
+
 exports.getLatest = async (req, res) => {
     req.query.latest = true;
-    req.query.limit = 5;
+    req.query.limit = 4;
     this.getMovie(req, res);
 };

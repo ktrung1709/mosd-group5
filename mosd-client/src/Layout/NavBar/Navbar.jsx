@@ -93,7 +93,6 @@ const NavBar = () => {
                 />
                 {openDropdown && (
                   <div className="absolute top-full left-0 bg-white mt-1 rounded shadow-md w-full">
-                    {/* Nội dung của dropdown */}
                     <NavLink
                       to="/profile"
                       className="block text-black h-9 dropdown"

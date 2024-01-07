@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const movieSchema = new mongoose.Schema({
     name: {
@@ -40,10 +39,7 @@ const movieSchema = new mongoose.Schema({
         type: Array,
         required: true,
     },
-    cast: {
-        type: Array,
-        required: true,
-    },
+    cast: [{ type: Object }],
     duration: {
         type: Number,
         required: true,

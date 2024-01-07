@@ -1,16 +1,23 @@
 Swiper {
     .h-96 {
-        height: 30rem/* 384px */ !important;
+        height: 30rem
+            /* 384px */
+            !important;
     }
 }
 
 .banner {
-    height: 18rem;
+    height: 35rem !important;
+
     @media (min-width: 1280px) {
-        height: auto/* 384px */;
+        height: auto
+            /* 384px */
+        ;
     }
 
     @media (min-width: 1024px) {
-        height: 30rem/* 256px */;
+        height: 30rem
+            /* 256px */
+        ;
     }
 }
