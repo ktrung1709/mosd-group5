@@ -1,4 +1,4 @@
-const {Types} = require('mongoose');
+const { Types } = require('mongoose');
 const feedbackService = require("../services/feedback.service");
 
 function sanitizeFeedback(data, movieId, userId) {
@@ -32,4 +32,4 @@ async function getFeedbackIDByMovieAndUser(userId, movieId, force = true) {
     return feedbackId;
 }
 
-module.exports = {sanitizeFeedback, sanitizeMovieID, getFeedbackIDByMovieAndUser};
+module.exports = { sanitizeFeedback, sanitizeMovieID, getFeedbackIDByMovieAndUser };
