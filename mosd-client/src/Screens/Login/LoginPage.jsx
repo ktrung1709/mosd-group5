@@ -27,7 +27,6 @@ const LoginPage = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("okay");
     dispatch(loginUser(data));
   };
 

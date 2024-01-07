@@ -10,8 +10,24 @@ const NavBar = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [searchValue, setSearchValue] = useState("")
+
   const hover = "hover:text-subMain transitions text-white";
   const Hover = ({ isActive }) => (isActive ? "text-subMain" : hover);
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (searchValue === "")
+      navigate('/movies')
+    else
+      navigate(`/movies/search/${searchValue}`)
+    setSearchValue("");
+  };
+
   return (
     <div className="bg-main shadow-md sticky top-0 z-20">
       <div className="container mx-auto pt-2 pb-6 px-2 lg:grid gap-10 grid-cols-7 justify-between items-center">
@@ -27,7 +43,7 @@ const NavBar = () => {
         </div>
         {/* Search form */}
         <div className="col-span-3">
-          <form className="w-full text-sm bg-dryGray rounded flex-btn gap-4">
+          <form className="w-full text-sm bg-dryGray rounded flex-btn gap-4" onSubmit={handleSubmit}>
             <button
               type="submit"
               className="bg-subMain w-12 flex-colo h-12 rounded text-white"
@@ -38,6 +54,8 @@ const NavBar = () => {
               type="text"
               placeholder="Search movie by name..."
               className="font-medium placeholder:text-border text-sm w-11/12 h-12 bg-transparent border-none px-2 text-black"
+              value={searchValue}
+              onChange={handleInputChange}
             />
           </form>
         </div>
@@ -65,32 +83,31 @@ const NavBar = () => {
           ) : (
             <>
               <p className={`${Hover} flex items-center relative`}>
-                <p className="flex-col user-action-button">
+                <span className="flex-col user-action-button">
                   <CgUser className="w-8 h-8" />
                   {username}
-                </p>
+                </span>
                 <IoIosArrowDown
                   className="w-6 h-6 hover:cursor-pointer"
                   onClick={() => setOpenDropdown(!openDropdown)}
                 />
                 {openDropdown && (
                   <div className="absolute top-full left-0 bg-white mt-1 rounded shadow-md w-full">
-                    {/* Nội dung của dropdown */}
                     <NavLink
                       to="/profile"
                       className="block text-black h-9 dropdown"
                     >
-                      <p>Profile</p>
+                      <span>Profile</span>
                     </NavLink>
                     <p
                       className="block text-black h-9 dropdown"
                       onClick={() => {
                         localStorage.clear();
                         navigate("/");
-                      toast.success("User logout successfully", { autoClose: 1500 });
+                        toast.success("User logout successfully", { autoClose: 1500 });
                       }}
                     >
-                      <p>Logout</p>
+                      <span>Logout</span>
                     </p>
                   </div>
                 )}

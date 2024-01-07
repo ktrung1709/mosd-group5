@@ -2,9 +2,8 @@ import Title from "../Title/Title.jsx";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Casts } from "../../Data/CastData.js";
 
-const MovieCast = () => {
+const MovieCast = (cast) => {
   return (
     <div className="my-12">
       <Title title={"Casts"} Icon={BsFillPeopleFill} />
@@ -48,15 +47,15 @@ const MovieCast = () => {
             },
           }}
         >
-          {Casts?.map((cast, index) => (
+          {cast?.cast?.map((cast, index) => (
             <SwiperSlide
               key={index}
               className="w-full p-3 italic text-xs text-text rounded flex-colo bg-dry border border-gray-800"
             >
               <img
-                src={`${cast.image}`}
-                alt={cast.fullName}
-                className="w-full h-64 object-cover rounded mb-4"
+                src={`${cast?.image}`}
+                alt={cast?.fullName}
+                className="w-11/12 h-96 object-cover rounded mb-4"
                 style={{ height: "23rem" }}
               />
               <p className="text-sm">{cast?.fullName}</p>

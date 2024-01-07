@@ -1,7 +1,6 @@
 // models/User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const { ObjectId } = require('bson');
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -22,10 +21,10 @@ const userSchema = new mongoose.Schema({
       type: Boolean,
       required: true
     },
-    watch_list:{
+    watch_list:[{
         list_name : {type: String},
         movies: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
-    },
+    }],
     favorite: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
     recent_view: [{type: mongoose.Schema.Types.ObjectId, ref:'movid_id'}],
 });

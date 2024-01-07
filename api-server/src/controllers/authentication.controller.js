@@ -48,16 +48,19 @@ exports.signin = async (req, res) => {
             res.status(400).json({ message: 'Invalid email or password' });
         } else {
             bcrypt.compare(password, user.password).then(result => {
+                if(!user.activated){
+                    res.status(400).json({ message: 'Account is not activated' });
+                    return
+                }
                 if (result) {
-                    console.log("Login successful!");
                     const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '2 days' });
                     res.status(200).json({
                         status: 'ok',
                         token: token,
-                        username: username
+                        username: username,
+                        userId: user._id
                     });
                 } else {
-                    console.log('Invalid email or password');
                     res.status(400).json({ message: 'Invalid email or password' });
                 }
             }).catch(error => console.error('Error comparing passwords:', error));
@@ -112,9 +115,6 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
     const { id, token, password } = req.body
-    console.log("id: ", id)
-    console.log("token: ", token)
-    console.log("password: ", password)
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) {
             return res.json({ Status: "Error with token" })

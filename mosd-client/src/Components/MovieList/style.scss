@@ -1,0 +1,10 @@
+.filter-option {
+    @media screen and (max-width: 640px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .filter-option-list {
+        width: 120%;
+        margin-left: -15px !important;
+    }
+}
