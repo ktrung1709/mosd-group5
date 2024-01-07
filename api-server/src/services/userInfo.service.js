@@ -85,7 +85,25 @@ exports.addToList = async (userId, movieId, listName) => {
 };
 
 exports.createList = async (userId, listName) => {
-    return await User.findByIdAndUpdate(userId, { $push: { watch_list: { list_name: listName } } }, { new: true });
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return { success: false, message: "User not found" };
+        }
+
+        const list = user.watch_list
+        console.log(list)
+
+        if (list?.find(item => item.list_name === listName)) {
+            return { message: "List exists already" };
+        }
+        await User.findByIdAndUpdate(userId, { $push: { watch_list: { list_name: listName } } }, { new: true });
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Internal Server Error" };
+    }
 }
 
 exports.deleteList = async (userId, listName) => {

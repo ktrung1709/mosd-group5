@@ -142,20 +142,21 @@ exports.addToList = async (req, res) => {
 };
 
 exports.createList = async (req, res) => {
-    let userId = req.user._id;
-    let listName = req.params.name;
-    await userInfoService.createList(userId, listName).then(user => {
-        if (!user) {
-            return res.status(200).json({
-                message: "Not found user",
-            })
+    try {
+        const userId = req.user._id;
+        const listName = req.params.name;
+
+        const result = await userInfoService.createList(userId, listName);
+
+        if (result.success) {
+            res.status(200).json({ message: "Created list" });
+        } else {
+            res.json({ message: result.message });
         }
-        return res.status(200).json({ message: "Created list" });
-    }).catch(error => {
-        return res.json({
-            message: error,
-        })
-    })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 }
 
 exports.deleteList = async (req, res) => {
