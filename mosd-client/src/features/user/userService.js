@@ -73,7 +73,7 @@ const deleteList = async (listName) => {
 }
 
 const getLists = async () => {
-    const res = await axios.get(`${base_url}user/list/`, null, config);
+    const res = await axios.get(`${base_url}user/lists`, config);
     if (res.data)
         return res.data
 }
@@ -85,7 +85,7 @@ const addToList = async (listName, movieId) => {
 }
 
 const deleteFromList = async (listName, movieId) => {
-    const res = await axios.delete(`${base_url}user/list${listName}/${movieId}`, null, config);
+    const res = await axios.delete(`${base_url}user/list/${listName}/${movieId}`, config);
     if (res.data)
         return res.data
 }

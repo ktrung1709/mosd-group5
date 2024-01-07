@@ -1,15 +1,84 @@
+import { useEffect, useState } from "react";
 import { moviePropTypes } from "../../PropTypes/MoviePropTypes.js";
 import { SlCalender } from "react-icons/sl";
 import { TbClockHour9 } from "react-icons/tb";
-import { HiShare } from "react-icons/hi";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import { FiDownload } from "react-icons/fi";
+import { RiMenuAddFill } from "react-icons/ri";
+import { userService } from "../../features/user/userService.js";
+import { toast } from "react-toastify";
 import './style.scss'
+import { IoAddCircleOutline } from "react-icons/io5";
 
 const MovieInfo = ({ movie }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [userLists, setUserLists] = useState([])
+
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const res = await userService.getLists();
+      if (res?.movies?.watch_list)
+        setUserLists(res?.movies?.watch_list)
+    }
+    fetchUserList()
+  }, [])
+
+  const handleAddToList = async (listName, movieId) => {
+    const res = await userService.addToList(listName, movieId);
+    console.log(res)
+    if (res?.message === "Added to list")
+      toast.success("Add to list successfully", { autoClose: 1500 });
+    else
+      toast.error("Movie in list already", { autoClose: 1500 });
+  }
+
   return (
     <div className="w-full xl:h-screen relative text-white">
+      {showModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div className="p-5 border-b border-solid border-blueGray-200 rounded-t">
+                  <h3 className="text-2xl font-semibold text-gray-500 text-center">
+                    Add movie to list
+                  </h3>
+                </div>
+                <div className="relative p-3 flex-auto text-gray-700">
+                  {
+                    userLists?.map((userList, index) =>
+                      <div key={index} className="p-3 flex justify-between">
+                        {userList?.list_name}
+                        <IoAddCircleOutline onClick={() => handleAddToList(userList?.list_name, movie?._id)} className="w-6 h-6 hover:cursor-pointer" />
+                      </div>
+                    )
+                  }
+                </div>
+                <div className="flex items-center justify-between p-6 border-t border-solid border-blueGray-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-600 text-white active:bg-emerald-600 font-bold uppercase text-sm px-2 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
       <img
         src={movie?.image}
         alt={movie?.name}
@@ -49,9 +118,19 @@ const MovieInfo = ({ movie }) => {
               </div>
               <p className="text-text text-sm leading-7">{movie?.desc}</p>
               <div className="grid sm:grid-cols-5 grid-cols-3 gap-4 p-6 bg-main border border-gray-800 rounded-lg">
-                <div className="col-span-1 flex-colo border-r border-border">
-                  <button className="w-10 h-10 flex-colo rounded-lg bg-white bg-opacity-20">
-                    <HiShare />
+                <div className="col-span-1 flex-colo border-border ml-2">
+                  {/* <button className="w-28 h-10 flex-colo rounded-lg bg-white bg-opacity-20">
+                    Add to list
+                  </button> */}
+                  {/* <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" className="w-28 h-10 flex-colo rounded-lg bg-white bg-opacity-20" type="button">
+                    Add to list
+                  </button> */}
+                  <button
+                    className="w-24 h-10 rounded-lg bg-white bg-opacity-20 flex-rows"
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Add <RiMenuAddFill className="ml-2" />
                   </button>
                 </div>
                 <div className="col-span-2 flex-colo font-medium text-sm">
