@@ -12,13 +12,13 @@ exports.createFeedback = async (req, res) => {
 
         let isExistFeedback = await getFeedbackIDByMovieAndUser(req.user._id, movieId, false);
         if (isExistFeedback) {
-            throw new Error('Feedback already exists');
+            return res.json({ message: 'Feedback already exists' });
         }
 
         let result = await feedbackService.createFeedback(feedback);
         res.json(result);
     } catch (e) {
-        res.status(400).json({message: e.message});
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -28,7 +28,7 @@ exports.getFeedbackByMovie = async (req, res) => {
         let result = await feedbackService.getFeedbackByMovie(movieId);
         res.json(result);
     } catch (e) {
-        res.status(400).json({message: e.message});
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -41,7 +41,7 @@ exports.updateFeedback = async (req, res) => {
         let result = await feedbackService.updateFeedback(feedbackId, feedback);
         res.json(result);
     } catch (e) {
-        res.status(400).json({message: e.message});
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -53,6 +53,6 @@ exports.deleteFeedback = async (req, res) => {
         let result = (await feedbackService.deleteFeedback(feedbackId));
         res.json(result);
     } catch (e) {
-        res.status(400).json({message: e.message});
+        res.status(400).json({ message: e.message });
     }
 }

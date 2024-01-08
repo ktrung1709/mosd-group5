@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { HiSelector } from "react-icons/hi"
 import { useNavigate, useParams } from "react-router-dom"
+import { toast } from "react-toastify";
 import './style.scss'
 const kindData = [
     {
@@ -10,7 +11,7 @@ const kindData = [
         idDisabled: true,
     },
 
-    { title: "Movie" },
+    { title: "Movie", },
     { title: "Series" }
 ]
 
@@ -90,7 +91,6 @@ const sortData = [
         idDisabled: true,
     },
 
-    { title: "Time Update" },
     { title: "Time Release" },
     { title: "Rate" },
 ]
@@ -99,7 +99,6 @@ const sortData = [
 function Filters() {
     const filterParamsUrl = useParams()
     const navigate = useNavigate()
-
     const [kind, setKind] = useState(kindData[0]);
     const [year, setYear] = useState(yearData[0]);
     const [category, setCategory] = useState(categoryData[0]);
@@ -154,6 +153,9 @@ function Filters() {
         } else if (timeData.includes(selected)) {
             setTime(selected);
             updateParam("time", selected?.title);
+        } else if (sortData.includes(selected)) {
+            setSort(selected);
+            updateParam("sort", selected?.title);
         }
     };
 
@@ -168,10 +170,14 @@ function Filters() {
         handleFilterChange()
     }, [])
 
+    const handleUnderConstruct = () => {
+        toast.info("Under Construction", { autoClose: 1500 })
+    }
+
     const Filter = [
         {
             value: kind,
-            onChange: handleFilterChange,
+            onChange: handleUnderConstruct,
             items: kindData
         },
         {
@@ -191,12 +197,12 @@ function Filters() {
         },
         {
             value: time,
-            onChange: handleFilterChange,
+            onChange: handleUnderConstruct,
             items: timeData
         },
         {
             value: sort,
-            onChange: setSort,
+            onChange: handleFilterChange,
             items: sortData
         },
     ]

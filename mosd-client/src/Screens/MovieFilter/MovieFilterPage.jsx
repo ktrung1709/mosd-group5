@@ -30,13 +30,21 @@ const MovieFilterPage = () => {
             if (key === "year" && value === "Before 2012") {
                 key = "b2012";
             }
+            if (key === "sort") {
+                if (value === "Time Release") {
+                    setMovies(movies?.sort((a, b) => new Date(b.year) - new Date(a.year)))
+                }
+                else if (value === "Rate") {
+                    setMovies(movies?.sort((a, b) => b.rate - a.rate))
+                }
+            }
             newQueryParams[key] = value;
         });
 
         newQueryParams.page = page;
 
         return newQueryParams;
-    }, [movieNameOrFilter?.filter, page]);
+    }, [movieNameOrFilter?.filter, movies, page]);
 
     useEffect(() => {
         if (queryParams) {

@@ -9,11 +9,13 @@ import { RiMenuAddFill } from "react-icons/ri";
 import { userService } from "../../features/user/userService.js";
 import { toast } from "react-toastify";
 import './style.scss'
-import { IoAddCircleOutline } from "react-icons/io5";
+import { IoAddCircleOutline, IoCreateOutline } from "react-icons/io5";
 
 const MovieInfo = ({ movie }) => {
   const [showModal, setShowModal] = useState(false);
   const [userLists, setUserLists] = useState([])
+  const [newListName, setNewListName] = useState("");
+  const [isNewList, setIsNewList] = useState(false)
 
   useEffect(() => {
     const fetchUserList = async () => {
@@ -22,16 +24,42 @@ const MovieInfo = ({ movie }) => {
         setUserLists(res?.movies?.watch_list)
     }
     fetchUserList()
-  }, [])
+  }, [isNewList])
 
   const handleAddToList = async (listName, movieId) => {
     const res = await userService.addToList(listName, movieId);
-    console.log(res)
     if (res?.message === "Added to list")
       toast.success("Add to list successfully", { autoClose: 1500 });
     else
       toast.error("Movie in list already", { autoClose: 1500 });
   }
+
+  const handleCreateNewList = async (listName) => {
+    const res = await userService.createList(listName);
+    if (res.message === "Created list") {
+      toast.success("Create list successfully", { autoClose: 1500 });
+      setIsNewList(true)
+    }
+    else
+      toast.error("List exists already", { autoClose: 1500 });
+    console.log(res)
+  }
+
+  const handleButtonClick = () => {
+    setIsNewList(false)
+    if (newListName.trim() !== "") {
+      handleCreateNewList(newListName);
+      setNewListName("");
+    }
+  };
+
+  const handleInputKeyPress = (e) => {
+    setIsNewList(false)
+    if (e.key === "Enter" && newListName.trim() !== "") {
+      handleCreateNewList(newListName);
+      setNewListName("");
+    }
+  };
 
   return (
     <div className="w-full xl:h-screen relative text-white">
@@ -56,6 +84,24 @@ const MovieInfo = ({ movie }) => {
                       </div>
                     )
                   }
+                  <div className="flex justify-between pl-1">
+                    <input
+                      type="text"
+                      name="listName"
+                      id="listName"
+                      className="border w-10/12 h-8 pl-2"
+                      placeholder="Create new list"
+                      value={newListName}
+                      onChange={(e) => setNewListName(e.target.value)}
+                      onKeyDown={handleInputKeyPress}
+                    />
+                    <button
+                      onClick={handleButtonClick}
+                      className="ml-2 text-white bg-green-500 px-4 py-2 rounded"
+                    >
+                      <IoCreateOutline className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
                 <div className="flex items-center justify-between p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button
@@ -166,7 +212,7 @@ const MovieInfo = ({ movie }) => {
 };
 
 MovieInfo.propTypes = {
-  movie: moviePropTypes.isRequired,
+  movie: moviePropTypes,
 };
 
 export default MovieInfo;
