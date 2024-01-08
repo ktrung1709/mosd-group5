@@ -3,14 +3,15 @@ import { Fragment, useEffect, useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { HiSelector } from "react-icons/hi"
 import { useNavigate, useParams } from "react-router-dom"
+import { toast } from "react-toastify";
 import './style.scss'
 const kindData = [
     {
         title: "- Kind -",
         idDisabled: true,
     },
-    { title: "All" },
-    { title: "Movie" },
+
+    { title: "Movie", },
     { title: "Series" }
 ]
 
@@ -19,7 +20,7 @@ const categoryData = [
         title: "- Category -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Action" },
     { title: "Drama" },
     { title: "Romantic" },
@@ -39,7 +40,7 @@ const yearData = [
         title: "- Year -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "2023" },
     { title: "2022" },
     { title: "2021" },
@@ -60,13 +61,13 @@ const languageData = [
         title: "- Language -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "Korean" },
     { title: "English" },
     { title: "Spanish" },
     { title: "Chinese" },
     { title: "Janapese" },
-    { title: "French" },
+    { title: "Vietnamese" },
     { title: "Other" },
 ]
 
@@ -75,7 +76,7 @@ const timeData = [
         title: "- Time -",
         idDisabled: true,
     },
-    { title: "All" },
+
     { title: "0 - 30 mins" },
     { title: "30 mins - 60 mins" },
     { title: "60 mins - 90 mins" },
@@ -89,8 +90,7 @@ const sortData = [
         title: "- Sort by -",
         idDisabled: true,
     },
-    { title: "All" },
-    { title: "Time Update" },
+
     { title: "Time Release" },
     { title: "Rate" },
 ]
@@ -99,7 +99,6 @@ const sortData = [
 function Filters() {
     const filterParamsUrl = useParams()
     const navigate = useNavigate()
-
     const [kind, setKind] = useState(kindData[0]);
     const [year, setYear] = useState(yearData[0]);
     const [category, setCategory] = useState(categoryData[0]);
@@ -132,13 +131,6 @@ function Filters() {
     const handleFilterChange = (selected) => {
         const updateParam = (paramName, paramValue) => {
             setFilterParam((prevFilterParam) => {
-                if (paramValue === "All") {
-                    if (prevFilterParam.split('=').length === 2) {
-                        prevFilterParam = ""
-                        return prevFilterParam
-                    }
-                    return prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
-                }
                 let updatedFilterParam = prevFilterParam.replace(new RegExp(`&?${paramName}=[^&]*`), "");
                 updatedFilterParam += (updatedFilterParam === "" ? "" : "&") + `${paramName}=${paramValue}`;
 
@@ -161,30 +153,31 @@ function Filters() {
         } else if (timeData.includes(selected)) {
             setTime(selected);
             updateParam("time", selected?.title);
+        } else if (sortData.includes(selected)) {
+            setSort(selected);
+            updateParam("sort", selected?.title);
         }
     };
 
 
     useEffect(() => {
         if (filterParam?.length > 0) {
-            let filterParams = ""
-            if (filterParam[0] === "&") {
-                filterParams = filterParam.slice(1)
-            }
-            navigate(`/movies/filter/${filterParams ? filterParams : filterParam}`)
+            navigate(`/movies/filter/${filterParam}`)
         }
-        else
-            navigate(`/movies/filter`)
     }, [filterParam, navigate])
 
     useEffect(() => {
         handleFilterChange()
     }, [])
 
+    const handleUnderConstruct = () => {
+        toast.info("Under Construction", { autoClose: 1500 })
+    }
+
     const Filter = [
         {
             value: kind,
-            onChange: handleFilterChange,
+            onChange: handleUnderConstruct,
             items: kindData
         },
         {
@@ -204,12 +197,12 @@ function Filters() {
         },
         {
             value: time,
-            onChange: handleFilterChange,
+            onChange: handleUnderConstruct,
             items: timeData
         },
         {
             value: sort,
-            onChange: setSort,
+            onChange: handleFilterChange,
             items: sortData
         },
     ]

@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "aos";
 import "aos/dist/aos.css";
 import { BrowserRouter } from "react-router-dom";
-import { store } from "./app/store";
+import { store } from "./App/store";
 import { Provider } from "react-redux";
 import "./index.css";
 

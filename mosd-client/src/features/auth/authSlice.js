@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  "auth/login",
+  "auth/signin",
   async (userData, thunkAPI) => {
     try {
       return await authService.login(userData);
@@ -97,6 +97,7 @@ export const authSlice = createSlice({
         if (state.isSuccess === true) {
           localStorage.setItem("token", action.payload.token);
           localStorage.setItem("username", action.payload.username);
+          localStorage.setItem("userId", action.payload.userId);
           state.loginCode = 1;
         }
       })

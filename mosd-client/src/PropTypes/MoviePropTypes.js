@@ -12,7 +12,7 @@ export const moviePropTypes = PropTypes.shape({
   time: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   videoUrl: PropTypes.string.isRequired,
-  cast: PropTypes.arrayOf(PropTypes.string).isRequired,
+  cast: PropTypes.arrayOf(PropTypes.object).isRequired,
   comment: PropTypes.arrayOf(PropTypes.string),
   director: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
