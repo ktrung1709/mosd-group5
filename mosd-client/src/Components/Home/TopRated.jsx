@@ -7,8 +7,9 @@ import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Star from "../StarRate/Star.jsx";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
-import "./TopRated.scss";
 import { moviesService } from "../../features/movies/moviesService.js";
+import { userService } from "../../features/user/userService.js";
+import { toast } from "react-toastify";
 
 const TopRated = () => {
   const [nextEl, setNextEl] = useState(null);
@@ -17,14 +18,20 @@ const TopRated = () => {
   useEffect(() => {
     const fetchTopMovie = async () => {
       const res = await moviesService.getTopRatedMovies()
-      console.log("res: ", res)
       if (res)
         setMovies(res)
     }
     fetchTopMovie()
   }, [])
-  const classNames =
-    "hover:bg-star transitions text-sm rounded w-8 h-8 flex-colo bg-subMain text-white";
+  const classNames = "hover:bg-star transitions text-sm rounded w-8 h-8 flex-colo bg-subMain text-white"
+
+  const handleAddToFavorite = async (movieId) => {
+    const res = await userService.addToFavorite(movieId);
+    if (res.message === "Added to favorite")
+      toast.success("Add to favorite successfully", { autoClose: 1500 });
+    else
+      toast.error("Favortie movie already", { autoClose: 1500 });
+  }
 
   return (
     <div className="my-16">
@@ -56,14 +63,14 @@ const TopRated = () => {
               slidesPerView: 1,
             },
             912: {
-              slidesPerView: 2,
+              slidesPerView: 4,
             },
             // when window width is >= 992px
             992: {
-              slidesPerView: 3,
+              slidesPerView: 4,
             },
             1024: {
-              slidesPerView: 3,
+              slidesPerView: 4,
             },
           }}
         >
@@ -73,11 +80,11 @@ const TopRated = () => {
                 <img
                   src={movie?.image}
                   alt={movie?.name}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full rounded-lg"
                 />
                 <div className="px-4 hoveres gap-6 text-center absolute bg-black bg-opacity-70 top-0 left-0 right-0 bottom-0">
                   <button className="w-12 h-12 flex-colo transitions hover:bg-subMain rounded-full bg-white bg-opacity-30 text-white">
-                    <FaHeart />
+                    <FaHeart onClick={() => handleAddToFavorite(movie._id)} />
                   </button>
                   <Link
                     to={`/movie/${movie?.name}`}

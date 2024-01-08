@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  nginx:
+    image: nhhuy/movie-platform-mosd:nginx-latest
+    ports:
+      - 80:80
+    depends_on: 
+      - api
+    
+  api:
+    image: nhhuy/movie-platform-mosd:api-latest
+    restart: always
+    ports:
+      - 3001:3001

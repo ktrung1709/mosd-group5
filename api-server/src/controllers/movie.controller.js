@@ -1,8 +1,6 @@
 const movieService = require('../services/movie.service');
 
 exports.getMovie = async (req, res) => {
-
-
     let name = req.query.name ?? null;
     let category = req.query.category ?? null;
     let year = req.query.year ?? null;
@@ -17,10 +15,10 @@ exports.getMovie = async (req, res) => {
 
     let options = {};
     if (name) {
-        options.name = { $regex: name, $options: 'i' };
+        options.name = {$regex: name, $options: 'i'};
     }
     if (category) {
-        options.categories = { $in: [new RegExp(`^${category}$`, 'i')] };
+        options.categories = {$in: RegExp(`^${category}$`, 'i')};
     }
     if (year) {
         options.year = year;
@@ -53,11 +51,12 @@ exports.getMovie = async (req, res) => {
 
 exports.getTopRate = async (req, res) => {
     req.query.top = true;
-    req.query.limit = 5;
+    // req.query.limit = 6;
     this.getMovie(req, res);
 };
+
 exports.getLatest = async (req, res) => {
     req.query.latest = true;
-    req.query.limit = 5;
+    req.query.limit = 4;
     this.getMovie(req, res);
 };

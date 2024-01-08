@@ -97,6 +97,7 @@ export const authSlice = createSlice({
         if (state.isSuccess === true) {
           localStorage.setItem("token", action.payload.token);
           localStorage.setItem("username", action.payload.username);
+          localStorage.setItem("userId", action.payload.userId);
           state.loginCode = 1;
         }
       })
@@ -105,11 +106,15 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action?.error;
+
         if (
           action?.payload?.response?.data?.message ===
           "Invalid email or password"
         )
           state.loginCode = 2;
+        else if (action?.payload?.response?.data?.message ===
+          "Account is not activated")
+          state.loginCode = 3;
       });
   },
 });

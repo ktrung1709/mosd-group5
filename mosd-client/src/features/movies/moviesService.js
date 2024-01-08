@@ -11,7 +11,7 @@ const getMovies = async (movieData) => {
 }
 
 const getTopRatedMovies = async () => {
-    const res = await axios.get(`${base_url}movie/getTopRate`);
+    const res = await axios.get(`${base_url}movie/getTopRate`, { params: { limit: 8 } });
     if (res.data)
         return res.data
 }
