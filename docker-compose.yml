@@ -3,7 +3,7 @@ services:
   nginx:
     image: nhhuy/movie-platform-mosd:nginx-latest
     ports:
-      - 80:80
+      - 5173:5173
     depends_on: 
       - api
     
@@ -11,4 +11,4 @@ services:
     image: nhhuy/movie-platform-mosd:api-latest
     restart: always
     ports:
-      - 3001:3001
+      - 6234:6234
