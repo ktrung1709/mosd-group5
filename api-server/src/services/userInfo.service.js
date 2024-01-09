@@ -17,7 +17,7 @@ exports.getRecent = async (userId) => {
 };
 
 exports.getListInfo = async (userId, watchListName) => {
-    return await User.findById(userId).select('watch_list').where('watch_list.list_name').equals(watchListName);
+    return await User.findById(userId).select({ 'watch_list': { '$elemMatch': { 'list_name': watchListName } } });
 };
 
 exports.getLists = async (userId) => {
