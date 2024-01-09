@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectId } = require('bson');
 
 const movieSchema = new mongoose.Schema({
     name: {
@@ -20,10 +19,7 @@ const movieSchema = new mongoose.Schema({
     desc: {
         type: String
     },
-    thumnail: {
-        type: String
-    },
-    image: {
+    thumbnail: {
         type: String
     },
     rate: {
@@ -35,7 +31,6 @@ const movieSchema = new mongoose.Schema({
     videoUrl: {
         type: String,
     },
-    comments: [{ type: String }],
     image: {
         type: String,
         required: false,

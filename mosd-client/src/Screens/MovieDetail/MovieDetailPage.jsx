@@ -2,6 +2,7 @@ import Layout from "../../Layout/Layout.jsx";
 import { useParams } from "react-router-dom";
 import MovieInfo from "../../Components/MovieDetail/MovieInfo.jsx";
 import MovieCast from "../../Components/MovieDetail/MovieCast.jsx";
+import MovieRates from "../../Components/MovieDetail/MovieRate.jsx";
 import MovieRelated from "../../Components/MovieDetail/MovieRelated.jsx";
 import { useEffect, useState } from "react";
 import { getMovies } from "../../features/movies/moviesSlice.js";
@@ -40,6 +41,8 @@ const MovieDetailPage = () => {
       <MovieInfo movie={movie[0]} />
       <div className="container mx-auto min-h-screen px-2 my-6">
         <MovieCast cast={movie[0]?.cast} />
+        {/*Rate */}
+        <MovieRates movie={movie[0]} />
         <MovieRelated movies={movieRelated} />
       </div>
     </Layout>

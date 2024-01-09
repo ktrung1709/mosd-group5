@@ -1,41 +1,41 @@
-import Filters from "../../Components/MovieList/Filters.jsx";
 import Layout from "../../Layout/Layout.jsx";
 import { useEffect, useState } from "react";
 import MovieItem from "../../Components/MovieItem/MovieItem.jsx";
 import { CgSpinner } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { getMovies } from "../../features/movies/moviesSlice.js";
+import { useParams } from "react-router-dom";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
-import { moviesService } from "../../features/movies/moviesService.js";
 
 export const maxMoviesPerPage = 10
-const MovieListPage = () => {
+const MovieSearchPage = () => {
+    const movieNameOrFilter = useParams()
+    const dispatch = useDispatch()
     const [page, setPage] = useState(1)
-    const [movies, setMovies] = useState()
-    const [showNext, setShowNext] = useState(true)
+    const [nameMovieParam, setNameMovieParam] = useState("")
+    const movies = useSelector(state => state.movies.movies)
 
-    const classNames = "hover:bg-star transitions text-sm rounded w-8 h-8 flex-colo bg-subMain text-white"
+    const classNames = "disabled transitions text-sm rounded w-8 h-8 flex-colo bg-subMain text-white"
 
     useEffect(() => {
         scroll(0, 0);
     }, [page]);
 
     useEffect(() => {
-        const fetchMovie = async () => {
-            const res = await moviesService.getMovies({ page: page })
-            if (res) {
-                setMovies(res)
-                if (res.length < 10)
-                    setShowNext(false)
-                else
-                    setShowNext(true)
-            }
-        }
-        fetchMovie()
-    }, [page])
+        if (movieNameOrFilter?.name)
+            setNameMovieParam(movieNameOrFilter.name)
+    }, [movieNameOrFilter])
+
+    useEffect(() => {
+        if (nameMovieParam)
+            dispatch(getMovies({ name: nameMovieParam, page: page }))
+
+    }, [dispatch, nameMovieParam, page])
 
     return (
         <Layout>
             <div className="min-height-screen container mx-auto px-2 my-6">
-                <Filters />
+                {/* <Filters /> */}
                 {/* <p className="text-lg font-medium my-6">
                     Total <span className="font-bold text-subMain">{movies?.length}</span> items found
                 </p> */}
@@ -50,14 +50,12 @@ const MovieListPage = () => {
                         </div>
                         <div className="w-full flex-colo md:my-20 my-10">
                             <div className="w-full px-1 flex-rows gap-6 pt-12">
-                                <button className={classNames} >
+                                <div className={classNames}>
                                     <BsCaretLeftFill onClick={() => setPage(page - 1)} />
-                                </button>
-                                {
-                                    showNext ? <button className={classNames} >
-                                        <BsCaretRightFill onClick={() => setPage(page + 1)} />
-                                    </button> : <></>
-                                }
+                                </div>
+                                <div className={classNames}>
+                                    <BsCaretRightFill onClick={() => setPage(page + 1)} />
+                                </div>
                             </div>
                         </div>
                     </> : <>
@@ -69,4 +67,4 @@ const MovieListPage = () => {
     );
 };
 
-export default MovieListPage;
+export default MovieSearchPage;

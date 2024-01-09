@@ -93,12 +93,11 @@ const NavBar = () => {
                 />
                 {openDropdown && (
                   <div className="absolute top-full left-0 bg-white mt-1 rounded shadow-md w-full">
-                    {/* Nội dung của dropdown */}
                     <NavLink
                       to="/profile"
                       className="block text-black h-9 dropdown"
                     >
-                      <span>Profile</span>
+                      Profile
                     </NavLink>
                     <p
                       className="block text-black h-9 dropdown"
@@ -108,7 +107,7 @@ const NavBar = () => {
                         toast.success("User logout successfully", { autoClose: 1500 });
                       }}
                     >
-                      <span>Logout</span>
+                      Logout
                     </p>
                   </div>
                 )}

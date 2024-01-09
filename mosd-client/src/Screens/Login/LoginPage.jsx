@@ -42,6 +42,8 @@ const LoginPage = () => {
       handleLoginSuccess();
     } else if (loginCode === 2)
       toast.error("Invalid username or password", { autoClose: 2000 });
+    else if (loginCode === 3)
+      toast.error("Account is not activated", { autoClose: 2000 });
     dispatch(resetCodes());
   }, [dispatch, loginCode, navigate]);
 

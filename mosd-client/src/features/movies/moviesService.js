@@ -11,7 +11,7 @@ const getMovies = async (movieData) => {
 }
 
 const getTopRatedMovies = async () => {
-    const res = await axios.get(`${base_url}movie/getTopRate`);
+    const res = await axios.get(`${base_url}movie/getTopRate`, { params: { limit: 8 } });
     if (res.data)
         return res.data
 }
@@ -22,6 +22,14 @@ const getLatestMovies = async () => {
         return res.data
 }
 
+const getMovieInfo = async (id) => {
+    const res = await axios.get(`${base_url}movie/getInfo`, {
+        params: id
+    });
+    if (res.data)
+        return res.data
+}
+
 export const moviesService = {
-    getMovies, getTopRatedMovies, getLatestMovies
+    getMovies, getTopRatedMovies, getLatestMovies, getMovieInfo
 };

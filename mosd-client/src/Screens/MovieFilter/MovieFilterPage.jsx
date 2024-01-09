@@ -1,13 +1,15 @@
 import Filters from "../../Components/MovieList/Filters.jsx";
 import Layout from "../../Layout/Layout.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MovieItem from "../../Components/MovieItem/MovieItem.jsx";
 import { CgSpinner } from "react-icons/cg";
+import { useParams } from "react-router-dom";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 import { moviesService } from "../../features/movies/moviesService.js";
 
 export const maxMoviesPerPage = 10
-const MovieListPage = () => {
+const MovieFilterPage = () => {
+    const movieNameOrFilter = useParams()
     const [page, setPage] = useState(1)
     const [movies, setMovies] = useState()
     const [showNext, setShowNext] = useState(true)
@@ -18,19 +20,47 @@ const MovieListPage = () => {
         scroll(0, 0);
     }, [page]);
 
-    useEffect(() => {
-        const fetchMovie = async () => {
-            const res = await moviesService.getMovies({ page: page })
-            if (res) {
-                setMovies(res)
-                if (res.length < 10)
-                    setShowNext(false)
-                else
-                    setShowNext(true)
+
+    const queryParams = useMemo(() => {
+        const params = movieNameOrFilter?.filter.split("&");
+        const newQueryParams = {};
+
+        params.forEach(param => {
+            let [key, value] = param.split("=");
+            if (key === "year" && value === "Before 2012") {
+                key = "b2012";
             }
+            if (key === "sort") {
+                if (value === "Time Release") {
+                    setMovies(movies?.sort((a, b) => new Date(b.year) - new Date(a.year)))
+                }
+                else if (value === "Rate") {
+                    setMovies(movies?.sort((a, b) => b.rate - a.rate))
+                }
+            }
+            newQueryParams[key] = value;
+        });
+
+        newQueryParams.page = page;
+
+        return newQueryParams;
+    }, [movieNameOrFilter?.filter, movies, page]);
+
+    useEffect(() => {
+        if (queryParams) {
+            const fetchMovie = async () => {
+                const res = await moviesService.getMovies(queryParams);
+                if (res) {
+                    setMovies(res);
+                    if (res.length < 10)
+                        setShowNext(false)
+                    else
+                        setShowNext(true)
+                }
+            };
+            fetchMovie();
         }
-        fetchMovie()
-    }, [page])
+    }, [queryParams]);
 
     return (
         <Layout>
@@ -69,4 +99,4 @@ const MovieListPage = () => {
     );
 };
 
-export default MovieListPage;
+export default MovieFilterPage;

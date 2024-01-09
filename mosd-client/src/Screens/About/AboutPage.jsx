@@ -4,9 +4,9 @@ const AboutUs = () => {
   return (
     <Layout>
       <div className="container mx-auto min-h-screen px-2 mb-6">
-        <div className="w-full bg-deepGray lg:h-64 h-40 relative overflow-hidden rounded-md">
+        <div className="w-full bg-deepGray lg:h-64 h-80 relative overflow-hidden rounded-md">
           <img
-            src="https://wallpapers.com/images/featured/movie-9pvmdtvz4cb0xl37.jpg"
+            src="/image/about2.jpg"
             alt="About us"
             className="w-full h-full object-cover opacity-80"
           />
@@ -24,10 +24,10 @@ const AboutUs = () => {
               </h3>
               <div className="mt-3 text-sm leading-8 text-text">
                 <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </p>
                 <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
                 </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6 mt-8">
@@ -43,7 +43,8 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
-            <img src="https://media.baodansinh.vn/baodansinh//2021/3/15/1-1615803960538176456595.png" alt="aboutus" class="w-full xl:block hidden h-header rounded-lg object-cover"></img>
+            <img src="/image/about1.jpg"
+              alt="aboutus" className="w-full xl:block hidden h-header rounded-lg object-cover"></img>
           </div>
         </div>
       </div>

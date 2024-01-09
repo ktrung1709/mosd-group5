@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react";
 import Title from "../Title/Title.jsx";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const MovieCast = (cast) => {
+  const [casts, setCasts] = useState();
+
+  useEffect(() => {
+    setCasts(cast.cast);
+  }, [cast]);
   return (
     <div className="my-12">
       <Title title={"Casts"} Icon={BsFillPeopleFill} />
@@ -47,17 +53,17 @@ const MovieCast = (cast) => {
             },
           }}
         >
-          {cast?.cast?.map((cast, index) => (
+          {casts?.map((cast) => (
             <SwiperSlide
-              key={index}
-              className="w-full p-3 italic text-xs text-text rounded flex-colo bg-dry border border-gray-800"
+              key={cast?.fullName}
+              className="w-full p-3 italic text-xs text-text rounded flex-colo bg-dry border border-gray-800 swiper-lazy"
             >
               <img
-                src={`${cast?.image}`}
+                src={cast?.image}
                 alt={cast?.fullName}
-                className="w-11/12 h-96 object-cover rounded mb-4"
-                style={{ height: "23rem" }}
+                className="w-11/12 h-96 object-cover rounded mb-4 swiper-lazy"
               />
+              <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
               <p className="text-sm">{cast?.fullName}</p>
             </SwiperSlide>
           ))}
