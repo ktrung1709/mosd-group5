@@ -44,4 +44,6 @@ async function testCreateUnactivatedUser() {
     }
 }
 
+// nothing
+
 testCreateUnactivatedUser().then(r => console.log(r));
