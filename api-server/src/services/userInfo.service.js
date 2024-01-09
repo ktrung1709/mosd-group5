@@ -17,7 +17,7 @@ exports.getRecent = async (userId) => {
 };
 
 exports.getListInfo = async (userId, watchListName) => {
-    return await User.findById(userId).select('watch_list').where('watch_list.list_name').equals(watchListName);
+    return await User.findById(userId).select({ 'watch_list': { '$elemMatch': { 'list_name': watchListName } } });
 };
 
 exports.getLists = async (userId) => {
@@ -25,28 +25,85 @@ exports.getLists = async (userId) => {
 }
 
 exports.addToFavorite = async (userId, movieId) => {
-    return await User.findByIdAndUpdate(userId, { $push: { favorite: movieId } }, { new: true });
-}
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    if (user.favorite.includes(movieId)) {
+        throw new Error("Movie exist");
+    }
+
+    user.favorite.push(movieId);
+    const updatedUser = await user.save();
+    return updatedUser;
+};
 
 exports.addToRecent = async (userId, movieId) => {
-    return await User.findByIdAndUpdate(userId, { $push: { recent_view: movieId } }, { new: true });
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    if (user.recent_view.includes(movieId)) {
+        throw new Error("Movie exist");
+    }
+
+    user.recent_view.push(movieId);
+    const updatedUser = await user.save();
+    return updatedUser;
 }
 
 exports.addToList = async (userId, movieId, listName) => {
-    return await User.updateOne({
-        _id: userId,
-        'watch_list.list_name': listName,
-        },
-        {
-            $addToSet: {
-                'watch_list.$.movie_ids': movieId,
-            },
-        }, 
-        { new: true });
-}
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return { success: false, message: "User not found" };
+        }
+
+        const list = user.watch_list.find((item) => item.list_name === listName);
+
+        if (!list) {
+            return { success: false, message: "List not found" };
+        }
+
+        if (list.movies.includes(movieId)) {
+            return { message: "Movie already exists in the list" };
+        }
+
+        list.movies.push(movieId);
+        await user.save();
+
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Internal Server Error" };
+    }
+};
 
 exports.createList = async (userId, listName) => {
-    return await User.findByIdAndUpdate(userId, { $push: { watch_list: { list_name: listName } } }, { new: true });
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return { success: false, message: "User not found" };
+        }
+
+        const list = user.watch_list
+        console.log(list)
+
+        if (list?.find(item => item.list_name === listName)) {
+            return { message: "List exists already" };
+        }
+        await User.findByIdAndUpdate(userId, { $push: { watch_list: { list_name: listName } } }, { new: true });
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Internal Server Error" };
+    }
 }
 
 exports.deleteList = async (userId, listName) => {
@@ -54,16 +111,32 @@ exports.deleteList = async (userId, listName) => {
 }
 
 exports.deleteFromList = async (userId, movieId, listName) => {
-    return await User.updateOne({
-        _id: userId,
-        'watch_list.list_name': listName,
-      },
-      {
-        $pull: {
-          'watch_list.$.movie_ids': movieId,
-        },
-      });
-}
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return { success: false, message: "User not found" };
+        }
+
+        const list = user.watch_list.find((item) => item.list_name === listName);
+
+        if (!list) {
+            return { success: false, message: "List not found" };
+        }
+
+        if (!list.movies.includes(movieId)) {
+            return { message: "Movie is not exists in the list" };
+        }
+
+        list.movies.pop(movieId);
+        await user.save();
+
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Internal Server Error" };
+    }
+};
 
 exports.deleteFromFavorite = async (userId, movieId) => {
     return await User.findByIdAndUpdate(userId, { $pull: { favorite: movieId } }, { new: true });
