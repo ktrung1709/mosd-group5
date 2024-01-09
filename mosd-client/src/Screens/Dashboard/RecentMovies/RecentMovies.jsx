@@ -1,22 +1,23 @@
-import MovieListTable from "../../../Components/Admin/MovieListTable.jsx";
+import MovieListTable from "../../../Components/Admin/MovieRecentTable.jsx";
 import SideBar from "../SideBar/SideBar.jsx";
 import { moviesService } from "../../../features/movies/moviesService.js";
 import { userService } from "../../../features/user/userService.js"
 import { useEffect, useState } from "react";
 
-function FavoriteMovies() {
+function RecentMovies() {
     const [favIds, setFavIds] = useState([]);
     const [movies, setMovies] = useState();
 
     useEffect(() => {
         const fetchFavIds = async () => {
-            const res = await userService.getFavorite()
+            const res = await userService.getRecent()
+            console.log(res)
             if (res) {
-                setFavIds(res.movies.favorite);
+                setFavIds(res?.movies?.recent_view);
             }
         };
         fetchFavIds();
-    }, [movies]);
+    }, []);
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -34,12 +35,8 @@ function FavoriteMovies() {
         <SideBar>
             <div className="flex flex-col gap-6">
                 <div className="flex-btn gap-2">
-                    <h2 className="text-xl font-bold">Favorite Movies</h2>
-                    <button className="bg-main font-medium transitions hover:bg-subMain border border-subMain text-white py-3 px-6 rounded">
-                        Delete All
-                    </button>
+                    <h2 className="text-xl font-bold">Recent Movies</h2>
                 </div>
-
                 {movies ? (
                     <MovieListTable data={movies} admin={false} />
                 ) : (
@@ -50,4 +47,4 @@ function FavoriteMovies() {
     );
 }
 
-export default FavoriteMovies;
+export default RecentMovies;

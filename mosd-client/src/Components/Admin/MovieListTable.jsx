@@ -1,12 +1,22 @@
-import { FaCloudDownloadAlt, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { GoEye } from "react-icons/go";
 import { moviePropTypes } from "../../PropTypes/MoviePropTypes";
 import { userPropTypes } from "../../PropTypes/UserPropTypes";
+import { userService } from "../../features/user/userService";
+import { toast } from "react-toastify";
 
 const Head = "text-xs text-left text-main font-semibold px-6 py-2 uppercase";
 const Text = "text-sm text-left leading-6 whitespace-nowrap px-5 py-3";
+
+const handleDelete = async (movieId) => {
+  const _delete = await userService.deleteFromFavorite(movieId)
+  if (_delete.message === "Deleted from favorite")
+    toast.success("Deleted from favorite", { autoClose: 1500 })
+  else
+    toast.error("Something went wrong", { autoClose: 1500 })
+}
 
 // rows
 const Rows = (movie, i, admin) => {
@@ -16,16 +26,16 @@ const Rows = (movie, i, admin) => {
         <div className="w-12 p-1 bg-dry border border-border h-12 rounded overflow-hidden">
           <img
             className="h-full w-full object-cover"
-            src={movie.image}
+            src={movie?.image}
             alt={movie?.name}
           />
         </div>
       </td>
-      <td className={`${Text} truncate`}>{movie.name}</td>
-      <td className={`${Text}`}>{movie.category}</td>
-      <td className={`${Text}`}>{movie.language}</td>
-      <td className={`${Text}`}>{movie.year}</td>
-      <td className={`${Text}`}>{movie.time}</td>
+      <td className={`${Text} truncate`}>{movie?.name}</td>
+      <td className={`${Text}`}>{movie?.categories[0]}, {movie?.categories[1]}</td>
+      <td className={`${Text}`}>{movie?.language}</td>
+      <td className={`${Text}`}>{movie?.year}</td>
+      <td className={`${Text}`}>{movie?.time}</td>
       <td className={`${Text} float-right flex-rows gap-2`}>
         {admin ? (
           <>
@@ -38,8 +48,8 @@ const Rows = (movie, i, admin) => {
           </>
         ) : (
           <>
-            <button className="border border-border bg-dry flex-rows gap-2 text-border rounded py-1 px-2">
-              Download <FaCloudDownloadAlt className="text-green-500" />
+            <button className="bg-subMain text-white rounded flex-colo w-6 h-6">
+              <MdDelete onClick={() => { handleDelete(movie?._id) }} />
             </button>
             <Link
               to={`/movie/${movie?.name}`}

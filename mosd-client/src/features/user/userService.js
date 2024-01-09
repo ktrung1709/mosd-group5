@@ -33,13 +33,11 @@ const deleteFromFavorite = async (movieId) => {
         return res.data
 }
 
-
 const getRecent = async () => {
     const res = await axios.get(`${base_url}user/recent`, config);
     if (res.data)
         return res.data
 }
-
 
 const addToRecent = async (movieId) => {
     const res = await axios.put(`${base_url}user/recent/${movieId}`, null, config);

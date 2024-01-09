@@ -19,6 +19,7 @@ import MovieListPage from "./Screens/MovieList/MovieListPage.jsx";
 import WatchMoviePage from "./Screens/WatchMovie/WatchMoviePage.jsx";
 import MovieSearchPage from "./Screens/MovieSearch/MovieSearchPage.jsx";
 import MovieFilterPage from "./Screens/MovieFilter/MovieFilterPage.jsx";
+import RecentMovies from "./Screens/Dashboard/RecentMovies/RecentMovies.jsx";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
       <Route path="/categories" element={<Categories />} />
       <Route path="/movies-list" element={<MoviesList />} />
       <Route path="/favorite-movies" element={<FavoriteMovies />} />
+      <Route path="/recent-movies" element={<RecentMovies />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/users" element={<Users />} />
       <Route path="/change-password" element={<PasswordPage />} />
