@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Layout from "../../../Layout/Layout.jsx";
-import { apiForgotPassword } from "../../../utils/api.js";
+import { apiForgotPassword } from "../../../utils/api/auth.js";
 import { toast } from "react-toastify";
 import './style.scss'
 

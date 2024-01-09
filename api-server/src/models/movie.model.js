@@ -1,7 +1,4 @@
-// models/Movie.js
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const { ObjectId } = require('bson');
 
 const movieSchema = new mongoose.Schema({
     name: {
@@ -22,10 +19,7 @@ const movieSchema = new mongoose.Schema({
     desc: {
         type: String
     },
-    thumnail: {
-        type: String
-    },
-    image: {
+    thumbnail: {
         type: String
     },
     rate: {
@@ -37,7 +31,19 @@ const movieSchema = new mongoose.Schema({
     videoUrl: {
         type: String,
     },
-    comments: [{type: String}],
+    image: {
+        type: String,
+        required: false,
+    },
+    director: {
+        type: Array,
+        required: true,
+    },
+    cast: [{ type: Object }],
+    duration: {
+        type: Number,
+        required: true,
+    },
 });
 const Movie = mongoose.model('movies', movieSchema);
 

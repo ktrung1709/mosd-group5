@@ -8,21 +8,18 @@ img {
     align-items: center;
 }
 
-.dropdown:first-child {
+/* .dropdown:first-child {
     border-bottom: 1px solid #000000;
-}
+} */
 
 .dropdown {
-    height: 40px !important;
-    line-height: 40px;
+    height: 46px !important;
+    line-height: 46px;
     font-size: 16px !important;
+    padding-left: 10px;;
 }
 
-.dropdown p {
-    text-align: center;
-}
-
-.dropdown p:hover {
-    background-color: #e3e9f380;
+.dropdown:hover{
+    background-color: #8f929680;
     cursor: pointer;
 }

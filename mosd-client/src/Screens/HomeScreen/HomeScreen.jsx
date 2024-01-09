@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../Layout/Layout.jsx";
 import Banner from "../../Components/Home/Banner.jsx";
 import PopularMovies from "../../Components/Home/PopularMovies.jsx";

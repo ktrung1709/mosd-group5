@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Layout from "../../../Layout/Layout.jsx";
-import { apiResetPassword } from "../../../utils/api.js";
+import { apiResetPassword } from "../../../utils/api/auth";
 import { getItemWithExpiration } from "../../../utils/localStorage.js";
 import { toast } from "react-toastify";
 
@@ -26,7 +26,6 @@ const PasswordPage = () => {
 
     const onSubmit = async (data) => {
         const respone = await apiResetPassword(window.location.pathname.split('/')[2], token, data.newPassword);
-        console.log("respone: ", respone)
         if (respone) {
             toast.success("Password changed successfully", { autoClose: 1500 });
             setTimeout(() => {

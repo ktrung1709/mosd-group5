@@ -1,6 +1,6 @@
 let User = require("../models/user.model")
 
-exports.getUserByUsername = async username => {
+exports.getUserByUsername = async (username) => {
     return User.findOne({ username: username });
 };
 

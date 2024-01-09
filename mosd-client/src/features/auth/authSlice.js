@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  "auth/login",
+  "auth/signin",
   async (userData, thunkAPI) => {
     try {
       return await authService.login(userData);
@@ -51,7 +51,6 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        console.log("state.isSuccess: ", state.isSuccess);
         state.createdUser = action.payload;
         state.registerCode = 1;
       })
@@ -64,28 +63,28 @@ export const authSlice = createSlice({
           state.registerCode = 2;
         if (
           action?.payload?.response?.data?.message[0] ===
-            "Invalid email address" &&
+          "Invalid email address" &&
           action?.payload?.response?.data?.message?.length === 1
         )
           state.registerCode = 3;
         if (
           action?.payload?.response?.data?.message[0] ===
-            "Username already exists" &&
+          "Username already exists" &&
           action?.payload?.response?.data?.message?.length === 1
         )
           state.registerCode = 4;
         if (
           action?.payload?.response?.data?.message[0] ===
-            "Email already exists" &&
+          "Email already exists" &&
           action?.payload?.response?.data?.message?.length === 1
         )
           state.registerCode = 5;
-          if (
-            action?.payload?.response?.data?.message[0] ===
-              "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character" &&
-            action?.payload?.response?.data?.message?.length === 1
-          )
-            state.registerCode = 6;
+        if (
+          action?.payload?.response?.data?.message[0] ===
+          "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character" &&
+          action?.payload?.response?.data?.message?.length === 1
+        )
+          state.registerCode = 6;
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -98,6 +97,7 @@ export const authSlice = createSlice({
         if (state.isSuccess === true) {
           localStorage.setItem("token", action.payload.token);
           localStorage.setItem("username", action.payload.username);
+          localStorage.setItem("userId", action.payload.userId);
           state.loginCode = 1;
         }
       })
@@ -106,11 +106,15 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action?.error;
+
         if (
           action?.payload?.response?.data?.message ===
           "Invalid email or password"
         )
           state.loginCode = 2;
+        else if (action?.payload?.response?.data?.message ===
+          "Account is not activated")
+          state.loginCode = 3;
       });
   },
 });
