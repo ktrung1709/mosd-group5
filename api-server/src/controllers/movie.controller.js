@@ -60,3 +60,9 @@ exports.getLatest = async (req, res) => {
     req.query.limit = 4;
     this.getMovie(req, res);
 };
+
+exports.getMovieById = async (req, res) => {
+    const movieId = req.query.movieId
+    let movie = await movieService.getMovieInfo(movieId)
+    res.json(movie)
+};

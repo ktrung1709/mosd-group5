@@ -15,25 +15,25 @@ function SideBar({ children }) {
       icon: BsFillGridFill,
     },
     {
-      name: "Movies List",
+      name: "Watch List",
       link: "/movies-list",
       icon: FaListAlt,
     },
-    {
-      name: "Add Movie",
-      link: "/addmovie",
-      icon: RiMovie2Fill,
-    },
-    {
-      name: "Categories",
-      link: "/categories",
-      icon: HiViewGridAdd,
-    },
-    {
-      name: "Users",
-      link: "/users",
-      icon: FaUsers,
-    },
+    // {
+    //   name: "Add Movie",
+    //   link: "/addmovie",
+    //   icon: RiMovie2Fill,
+    // },
+    // {
+    //   name: "Categories",
+    //   link: "/categories",
+    //   icon: HiViewGridAdd,
+    // },
+    // {
+    //   name: "Users",
+    //   link: "/users",
+    //   icon: FaUsers,
+    // },
     {
       name: "Update Profile",
       link: "/profile",
