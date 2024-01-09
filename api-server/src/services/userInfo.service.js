@@ -141,3 +141,4 @@ exports.deleteFromList = async (userId, movieId, listName) => {
 exports.deleteFromFavorite = async (userId, movieId) => {
     return await User.findByIdAndUpdate(userId, { $pull: { favorite: movieId } }, { new: true });
 }
+
