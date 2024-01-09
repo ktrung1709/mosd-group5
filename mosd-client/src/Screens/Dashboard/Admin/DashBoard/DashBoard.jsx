@@ -2,52 +2,56 @@ import MovieListTable from "../../../../Components/Admin/MovieListTable.jsx";
 import SideBar from "../../SideBar/SideBar.jsx";
 import { FaRegListAlt, FaUser } from "react-icons/fa";
 import { HiViewGridAdd } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
-import { getMovies } from "../../../../features/movies/moviesSlice.js";
-import { categoryService } from "../../../../features/category/categoryService.js"
-import { useParams } from "react-router-dom";
+import { moviesService } from "../../../../features/movies/moviesService.js";
+import { userService } from "../../../../features/user/userService.js"
 import { useEffect, useState } from "react";
 
 function Dashboard() {
-    const movieNameOrFilter = useParams()
-    const dispatch = useDispatch()
-    const [nameMovieParam, setNameMovieParam] = useState("")
-    const movies = useSelector(state => state.movies.movies)
+    const [recentIds, setRecentIds] = useState([]);
+    const [movies, setMovies] = useState();
 
     useEffect(() => {
-        if (movieNameOrFilter?.name)
-            setNameMovieParam(movieNameOrFilter.name)
-    }, [movieNameOrFilter])
+        const fetchRecentIds = async () => {
+            const res = await userService.getRecent();
+            if (res) {
+                setRecentIds(res.movies.recent_view);
+            }
+        };
+        fetchRecentIds();
+    }, []);
 
     useEffect(() => {
-        if (!nameMovieParam || nameMovieParam === null)
-            dispatch(getMovies())
-        if (nameMovieParam)
-            dispatch(getMovies({ name: nameMovieParam }))
-    }, [dispatch, nameMovieParam])
+        const fetchMovies = async () => {
+            if (recentIds) {
+                const fetchedMovies = await Promise.all(
+                    recentIds.map((id) => moviesService.getMovieInfo({ movieId: id }))
+                );
+                setMovies(fetchedMovies);
+            }
+        };
+        fetchMovies();
+    }, [recentIds]);
 
-    const categories = categoryService.getCategories()
+    const categories = new Set([]);
+    movies?.map((movie) =>{
+        const cats = movie.categories
+        cats.forEach(cat => categories.add(cat))
+    })
 
     const DashboardData = [
         {
-          bg: "bg-orange-600",
-          icon: FaRegListAlt,
-          title: "Total Movies",
-          total: movies?.length,
+            bg: "bg-orange-600",
+            icon: FaRegListAlt,
+            title: "Total Movies",
+            total: movies?.length,
         },
         {
           bg: "bg-blue-700",
           icon: HiViewGridAdd,
           title: "Total Categories",
-          total: categories?.length,
+          total: categories?.size,
         },
-        {
-          bg: "bg-green-600",
-          icon: FaUser,
-          title: "Total Users",
-          total: "",
-        },
-      ];
+    ];
 
     return (
         <SideBar>
@@ -71,7 +75,11 @@ function Dashboard() {
                 ))}
             </div>
             <h3 className="text-md font-medium my-6 text-border">Recent Movies</h3>
-            <MovieListTable data={movies.slice(0, 5)} admin={true} />
+            {movies ? (
+                <MovieListTable data={movies} admin={false} />
+            ) : (
+                <p>Loading movies...</p>
+            )}
         </SideBar>
     );
 }
