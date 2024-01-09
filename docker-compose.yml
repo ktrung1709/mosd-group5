@@ -11,4 +11,4 @@ services:
     image: nhhuy/movie-platform-mosd:api-latest
     restart: always
     ports:
-      - 3001:3001
+      - 6234:6234

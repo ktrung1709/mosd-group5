@@ -30,10 +30,10 @@ app.get('/ping-auth', verifyToken, (req, res) => {
     res.json({ 'status': 'ok' });
 });
 
-app.use('/auth', authRoute);
-app.use('/account', accountRoute);
-app.use('/movie', movieRoute);
-app.use('/cast', castRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/account', accountRoute);
+app.use('/api/movie', movieRoute);
+app.use('/api/cast', castRoute);
 
 app.use('/user', verifyToken, userInfoRoute);
 
